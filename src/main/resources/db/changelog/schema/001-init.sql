@@ -1,5 +1,5 @@
-CREATE TABLE user (
+CREATE TABLE usr (
                          user_id varchar NOT NULL,
-                         role varchar NOT NULL DEFAULT 'user',
+                         role varchar,
                          CONSTRAINT pk_user PRIMARY KEY (user_id)
 );

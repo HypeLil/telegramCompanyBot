@@ -2,3 +2,26 @@ bot:
   token: 1817825340:AAHqazxriT8wT_EfGphz62GQ3tyYdQ57rFw
   name: testBot
   botAdmin: 213411446
+
+server:
+  port: 5555
+
+spring:
+  liquibase:
+    enabled: true
+    contexts: test
+  jpa:
+    properties:
+      hibernate.show_sql: false
+      hibernate:format_sql: false
+    open-in-view: false
+    hibernate.ddl-auto: none
+  datasource:
+    #  Note that the hostname, port and database name on url property and username and password properties will be ignored
+    #  and it will be used default container values
+    url: jdbc:postgresql://localhost:5555/iwan?user=postgres&password=91823God&currentSchema=public
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: 91823God
+    hikari:
+      schema: public
