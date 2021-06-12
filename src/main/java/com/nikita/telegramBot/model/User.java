@@ -1,23 +1,28 @@
 package com.nikita.telegramBot.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.*;
+
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
+@Table(name = "usr")
 @NoArgsConstructor
-@AllArgsConstructor
 public class User {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "usr_id")
   private String userId;
+  @Column(name = "role")
+  @Enumerated(EnumType.STRING)
   private Role role;
+  @Column(name = "position")
+  private String position;
+
+  public User(String userId) {
+    this.userId = userId;
+    this.role = Role.USER;
+    this.position = "start";
+  }
 }
