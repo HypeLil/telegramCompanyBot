@@ -14,15 +14,23 @@ public class User {
   @Id
   @Column(name = "usr_id")
   private String userId;
-  @Column(name = "role")
+
   @Enumerated(EnumType.STRING)
   private Role role;
-  @Column(name = "position")
+
   private String position;
+  private String number;
+  private String name;
+  private String email;
+  private String orderPosition;
 
   public User(String userId) {
     this.userId = userId;
     this.role = Role.USER;
     this.position = "start";
+    this.number = "0";
+    this.name = "Без имени";
+    this.email = "@";
+    this.orderPosition = "";
   }
 }

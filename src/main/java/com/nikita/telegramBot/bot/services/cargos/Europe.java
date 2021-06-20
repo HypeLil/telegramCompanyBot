@@ -96,17 +96,22 @@ public class Europe implements Cargo{
             return sendMessage;
         }
         sendMessage.setText("Вы выбрали " + countries[ans-1]);
-        user.setPosition("заказ_" + countries[ans-1].toString());
+        user.setPosition("заказ_" + countries[ans-1]);
         userService.update(user);
 
         List<KeyboardRow> keyboardRowList = new ArrayList<>();
+
         KeyboardRow keyboardRow = new KeyboardRow();
-        keyboardRow.add(new KeyboardButton("Подробнее"));
+        keyboardRow.add(new KeyboardButton("Заказать"));
+
+        KeyboardRow keyboardRow2 = new KeyboardRow();
+        keyboardRow2.add(new KeyboardButton("Подробнее"));
 
         KeyboardRow keyboardRow1 = new KeyboardRow();
         keyboardRow1.add("Назад");
 
         keyboardRowList.add(keyboardRow);
+        keyboardRowList.add(keyboardRow2);
         keyboardRowList.add(keyboardRow1);
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
 

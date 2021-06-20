@@ -65,7 +65,7 @@ public class Turkish implements Cargo{
     public SendMessage sky(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
         User user = userService.getOrCreate(chatId);
-        user.setPosition("turkish");
+        user.setPosition("turkish_sky");
         userService.update(user);
 
         SendMessage sendMessage = new SendMessage();
@@ -100,7 +100,7 @@ public class Turkish implements Cargo{
     public SendMessage auto(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
         User user = userService.getOrCreate(chatId);
-        user.setPosition("turkish");
+        user.setPosition("turkish_auto");
         userService.update(user);
 
         SendMessage sendMessage = new SendMessage();
@@ -135,7 +135,7 @@ public class Turkish implements Cargo{
     public SendMessage multi(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
         User user = userService.getOrCreate(chatId);
-        user.setPosition("turkish");
+        user.setPosition("turkish_multi");
         userService.update(user);
 
         SendMessage sendMessage = new SendMessage();

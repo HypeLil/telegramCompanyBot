@@ -60,7 +60,7 @@ public class Sertification {
     public SendMessage customs(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
         User user = userService.getOrCreate(chatId);
-        user.setPosition("sertif");
+        user.setPosition("custom");
         userService.update(user);
 
         SendMessage sendMessage = new SendMessage();
@@ -96,7 +96,7 @@ public class Sertification {
     public SendMessage findProvider(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
         User user = userService.getOrCreate(chatId);
-        user.setPosition("sertif");
+        user.setPosition("provider");
         userService.update(user);
 
         SendMessage sendMessage = new SendMessage();

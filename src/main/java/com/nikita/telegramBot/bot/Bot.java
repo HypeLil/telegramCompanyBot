@@ -1,5 +1,6 @@
 package com.nikita.telegramBot.bot;
 
+import com.nikita.telegramBot.bot.handler.OrderHandler;
 import com.nikita.telegramBot.bot.handler.SetsHandler;
 import com.nikita.telegramBot.bot.services.Sertification;
 import com.nikita.telegramBot.bot.services.ServiceDT;
@@ -47,6 +48,7 @@ public class Bot extends TelegramLongPollingBot {
     private final ServiceDT serviceDT;
     private final Sertification sertification;
     private final SetsHandler setsHandler;
+    private final OrderHandler orderHandler;
 
     @Override
     public String getBotUsername() {
@@ -66,6 +68,21 @@ public class Bot extends TelegramLongPollingBot {
 
             if ("Назад".equalsIgnoreCase(command)){
                 executeMessage(back(update));
+                return;
+            }
+
+            // проверка на наличие ввода данных для заявки на заказ
+            if (!user.getPosition().equalsIgnoreCase("start")){
+                String position = user.getPosition();
+                if ("enter_name".equalsIgnoreCase(position)){
+                    executeMessage(orderHandler.enterName(update));
+                }
+                else if ("enter_number".equalsIgnoreCase(position)){
+                    executeMessage(orderHandler.enterNumber(update));
+                }
+                else if ("enter_email".equalsIgnoreCase(position)){
+                    executeMessage(orderHandler.result(update));
+                }
             }
 
             if ("carg".equalsIgnoreCase(user.getPosition().split("_")[0]) && !"Назад".equalsIgnoreCase(command)){
@@ -125,7 +142,7 @@ public class Bot extends TelegramLongPollingBot {
             else if ("Сертификация".equalsIgnoreCase(command)){
                 executeMessage(sertification.start(update));
             }
-            else if ("Таможенное оформление".equalsIgnoreCase(command)){
+            else if ("Таможенное оформление".equalsIgnoreCase(command) && "catalog".equalsIgnoreCase(user.getPosition())){
                 executeMessage(sertification.customs(update));
             }
             else if ("Поиск поставщика".equalsIgnoreCase(command)){
@@ -142,6 +159,9 @@ public class Bot extends TelegramLongPollingBot {
             }
             else if ("Проверенные поставщики".equalsIgnoreCase(command)){
                 executeMessage(setsHandler.provider(update));
+            }
+            else if ("Заказать".equalsIgnoreCase(command)){
+                executeMessage(orderHandler.order(update));
             }
 
         }
@@ -164,16 +184,16 @@ public class Bot extends TelegramLongPollingBot {
         if ("carg_europe".equalsIgnoreCase(position)){
             return serviceCatalog.startService(update);
         }
-        else if ("turkish".equalsIgnoreCase(position)){
+        else if ("turkish".equalsIgnoreCase(position.split("_")[0])){
             return serviceCatalog.startService(update);
         }
-        else if ("china".equalsIgnoreCase(position)){
+        else if ("china".equalsIgnoreCase(position.split("_")[0])){
             return serviceCatalog.startService(update);
         }
-        else if ("dt_service".equalsIgnoreCase(position)){
+        else if ("dt-service".equalsIgnoreCase(position.split("_")[0])){
             return serviceCatalog.startService(update);
         }
-        else if ("sertif".equalsIgnoreCase(position)){
+        else if ("sertif".equalsIgnoreCase(position.split("_")[0])){
             return serviceCatalog.startService(update);
         }
         else if ("sets".equalsIgnoreCase(position)){

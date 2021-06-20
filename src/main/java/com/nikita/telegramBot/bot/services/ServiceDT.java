@@ -25,7 +25,7 @@ public class ServiceDT {
     public SendMessage start(Update update) {
         String chatId = String.valueOf(update.getMessage().getChatId());
         User user = userService.getOrCreate(chatId);
-        user.setPosition("dt_service");
+        user.setPosition("dt-service");
         userService.update(user);
 
         SendMessage sendMessage = new SendMessage();
@@ -60,13 +60,13 @@ public class ServiceDT {
     public SendMessage client(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
         User user = userService.getOrCreate(chatId);
-        user.setPosition("dt_service");
+        user.setPosition("dt-service_client");
         userService.update(user);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Для того чтобы товар смог поступить в свободное обращение на территории Российской Федерации ему нужно пройти таможенную очистку. " +
+        sendMessage.setText("Для того, чтобы товар смог поступить в свободное обращение на территории Российской Федерации ему нужно пройти таможенную очистку. " +
                 "\nОна включает в себя уплату пошлин, сборов и НДС, в соответствии заявляемой номенклатурой внешнеэкономической деятельности.");
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setResizeKeyboard(true);
@@ -96,13 +96,13 @@ public class ServiceDT {
     public SendMessage broker(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
         User user = userService.getOrCreate(chatId);
-        user.setPosition("dt_service");
+        user.setPosition("dt-service_broker");
         userService.update(user);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Для того чтобы товар смог поступить в свободное обращение на территории Российской Федерации ему нужно пройти таможенную очистку. " +
+        sendMessage.setText("Для того, чтобы товар смог поступить в свободное обращение на территории Российской Федерации ему нужно пройти таможенную очистку. " +
                 "\nОна включает в себя уплату пошлин, сборов и НДС, в соответствии заявляемой номенклатурой внешнеэкономической деятельности.");
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setResizeKeyboard(true);

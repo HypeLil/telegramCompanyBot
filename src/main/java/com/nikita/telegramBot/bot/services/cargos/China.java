@@ -65,7 +65,7 @@ public class China implements Cargo{
     public SendMessage sky(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
         User user = userService.getOrCreate(chatId);
-        user.setPosition("china");
+        user.setPosition("china_sky");
         userService.update(user);
 
         SendMessage sendMessage = new SendMessage();
@@ -100,7 +100,7 @@ public class China implements Cargo{
     public SendMessage auto(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
         User user = userService.getOrCreate(chatId);
-        user.setPosition("china");
+        user.setPosition("china_auto");
         userService.update(user);
 
         SendMessage sendMessage = new SendMessage();
@@ -134,7 +134,7 @@ public class China implements Cargo{
     public SendMessage train(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
         User user = userService.getOrCreate(chatId);
-        user.setPosition("china");
+        user.setPosition("china_train");
         userService.update(user);
 
         SendMessage sendMessage = new SendMessage();

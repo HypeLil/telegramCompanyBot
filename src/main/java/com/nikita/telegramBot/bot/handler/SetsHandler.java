@@ -23,7 +23,7 @@ public class SetsHandler {
     public SendMessage opt(Update update) {
         String chatId = String.valueOf(update.getMessage().getChatId());
         User user = userService.getOrCreate(chatId);
-        user.setPosition("sets");
+        user.setPosition("opt");
         userService.update(user);
 
         SendMessage sendMessage = new SendMessage();
@@ -67,7 +67,7 @@ public class SetsHandler {
     public SendMessage complex(Update update) {
         String chatId = String.valueOf(update.getMessage().getChatId());
         User user = userService.getOrCreate(chatId);
-        user.setPosition("sets");
+        user.setPosition("complex");
         userService.update(user);
 
         SendMessage sendMessage = new SendMessage();
@@ -106,7 +106,7 @@ public class SetsHandler {
     public SendMessage customs(Update update) {
         String chatId = String.valueOf(update.getMessage().getChatId());
         User user = userService.getOrCreate(chatId);
-        user.setPosition("sets");
+        user.setPosition("sets_custom");
         userService.update(user);
 
         SendMessage sendMessage = new SendMessage();
@@ -142,7 +142,7 @@ public class SetsHandler {
     public SendMessage provider(Update update) {
         String chatId = String.valueOf(update.getMessage().getChatId());
         User user = userService.getOrCreate(chatId);
-        user.setPosition("sets");
+        user.setPosition("sets_provider");
         userService.update(user);
 
         SendMessage sendMessage = new SendMessage();
