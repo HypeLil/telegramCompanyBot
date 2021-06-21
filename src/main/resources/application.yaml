@@ -1,15 +1,8 @@
 bot:
-  token:
+  token: 1817825340:AAFDTGZaRa4qIfDWPRb0zCg86hLZS873tLQ
   name: testBot
-  admin:
-  number:
-
-mail:
-  email:
-  host: smtp.gmail.com
-  from_login:
-  password:
-  port_ssl: 587
+  admin: 213411446
+  number: +74956406355
 
 server:
   port: 5555

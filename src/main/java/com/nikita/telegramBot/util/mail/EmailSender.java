@@ -10,7 +10,6 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 @Component
-@ComponentScan(basePackages = "application.yaml")
 @Slf4j
 public class EmailSender {
 
