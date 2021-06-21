@@ -36,9 +36,6 @@ public class Bot extends TelegramLongPollingBot {
     @Getter
     private String name;
 
-    @Value("${bot.admin}")
-    private String botAdmin;
-
     private final MainHandler mainHandler;
     private final UserService userService;
     private final ServiceCatalog serviceCatalog;

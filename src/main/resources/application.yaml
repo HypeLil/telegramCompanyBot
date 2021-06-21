@@ -1,8 +1,8 @@
 bot:
-  token: 1817825340:AAFDTGZaRa4qIfDWPRb0zCg86hLZS873tLQ
+  token:
   name: testBot
-  admin: 213411446
-  number: +74956406355
+  admin:
+  number:
 
 server:
   port: 5555

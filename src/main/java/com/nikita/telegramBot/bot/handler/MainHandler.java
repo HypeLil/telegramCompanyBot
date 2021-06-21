@@ -1,5 +1,6 @@
 package com.nikita.telegramBot.bot.handler;
 
+import com.nikita.telegramBot.model.Role;
 import com.nikita.telegramBot.model.User;
 import com.nikita.telegramBot.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,17 @@ public class MainHandler {
     @Value("${bot.number}")
     private String number;
 
+    @Value("${bot.admin}")
+    private String botAdmin;
+
     public SendMessage start(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
+        User user = userService.getOrCreate(chatId);
+
+        if (botAdmin.equals(user.getUserId()) && user.getRole() != Role.ADMIN){
+            user.setRole(Role.ADMIN);
+            userService.update(user);
+        }
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -102,6 +112,8 @@ public class MainHandler {
     }
 
     public SendMessage startMenu(SendMessage sendMessage){
+        User user = userService.getOrCreate(sendMessage.getChatId());
+
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
@@ -109,6 +121,12 @@ public class MainHandler {
 
         // Создаем список строк клавиатуры
         List<KeyboardRow> keyboard = new ArrayList<>();
+
+        if (user.getRole() == Role.ADMIN || user.getRole() == Role.MANAGER){
+            KeyboardRow keyb = new KeyboardRow();
+            keyb.add(new KeyboardButton("Админ-панель"));
+            keyboard.add(keyb);
+        }
 
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         keyboardFirstRow.add(new KeyboardButton("Каталог услуг"));
