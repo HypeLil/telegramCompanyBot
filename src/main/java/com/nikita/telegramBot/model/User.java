@@ -3,6 +3,8 @@ package com.nikita.telegramBot.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -23,6 +25,8 @@ public class User {
   private String name;
   private String email;
   private String orderPosition;
+  private boolean online;
+  private String lastAction;
 
   public User(String userId) {
     this.userId = userId;
@@ -32,5 +36,7 @@ public class User {
     this.name = "Без имени";
     this.email = "@";
     this.orderPosition = "";
+    this.online = false;
+    this.lastAction = new SimpleDateFormat("yyyy.MM.dd G 'в' HH:mm:ss").format(new Date());
   }
 }
