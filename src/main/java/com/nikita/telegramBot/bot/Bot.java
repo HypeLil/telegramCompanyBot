@@ -1,5 +1,6 @@
 package com.nikita.telegramBot.bot;
 
+import com.nikita.telegramBot.bot.admin.AdminPanel;
 import com.nikita.telegramBot.bot.handler.OrderHandler;
 import com.nikita.telegramBot.bot.handler.SetsHandler;
 import com.nikita.telegramBot.bot.services.Sertification;
@@ -46,6 +47,7 @@ public class Bot extends TelegramLongPollingBot {
     private final Sertification sertification;
     private final SetsHandler setsHandler;
     private final OrderHandler orderHandler;
+    private final AdminPanel adminPanel;
 
     @Override
     public String getBotUsername() {
@@ -79,6 +81,15 @@ public class Bot extends TelegramLongPollingBot {
                 }
                 else if ("enter_email".equalsIgnoreCase(position)){
                     executeMessage(orderHandler.result(update));
+                }
+                else if ("admin_permission".equalsIgnoreCase(position)){
+                    executeMessage(adminPanel.issuePermissionsPartTwo(update));
+                }
+                else if ("admin_permission-role".equalsIgnoreCase(position.split(":")[0])){
+                    executeMessage(adminPanel.issuePermissionsPartThree(update));
+                }
+                else if ("admin_permission-name".equalsIgnoreCase(position.split(":")[0])){
+                    adminPanel.issuePermissionsPartFour(update).forEach(this::executeMessage);
                 }
             }
 
@@ -160,6 +171,21 @@ public class Bot extends TelegramLongPollingBot {
             else if ("Заказать".equalsIgnoreCase(command)){
                 executeMessage(orderHandler.order(update));
             }
+            else if ("Админ-панель".equalsIgnoreCase(command)){
+                executeMessage(adminPanel.startAdmin(update));
+            }
+            else if ("Войти/Выйти из сети".equalsIgnoreCase(command)){
+                executeMessage(adminPanel.online(update));
+            }
+            else if ("Выйти из админ-панели".equalsIgnoreCase(command)){
+                executeMessage(mainHandler.start(update));
+            }
+            else if ("Администрация онлайн".equalsIgnoreCase(command)){
+                executeMessage(adminPanel.whoIsOnline(update));
+            }
+            else if ("Выдать права".equalsIgnoreCase(command)){
+                executeMessage(adminPanel.issuePermissions(update));
+            }
 
         }
     }
@@ -195,6 +221,9 @@ public class Bot extends TelegramLongPollingBot {
         }
         else if ("sets".equalsIgnoreCase(position)){
             return mainHandler.completedSets(update);
+        }
+        else if ("admin".equalsIgnoreCase(position.split("_")[0])){
+            return adminPanel.startAdmin(update);
         }
         else {
             return mainHandler.start(update);
