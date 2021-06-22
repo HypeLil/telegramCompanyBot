@@ -9,10 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface JpaChatRepository extends JpaRepository<ChatEntity, String> {
+public interface JpaChatRepository extends JpaRepository<ChatEntity, Integer> {
 
     @Query("SELECT c FROM ChatEntity c WHERE c.managerId=:manager")
     List<ChatEntity> findAllChatsByManagerId(@Param("manager") String managerId);
 
     ChatEntity findChatEntityByUserIdAndManagerId(String userId, String managerId);
+
+    ChatEntity findChatEntityByUserId(String userId);
 }

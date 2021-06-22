@@ -1,7 +1,11 @@
 package com.nikita.telegramBot.bot.handler;
 
+import com.nikita.telegramBot.model.ChatEntity;
+import com.nikita.telegramBot.model.MessageEntity;
 import com.nikita.telegramBot.model.Role;
 import com.nikita.telegramBot.model.UserEntity;
+import com.nikita.telegramBot.service.ChatService;
+import com.nikita.telegramBot.service.MessageService;
 import com.nikita.telegramBot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,12 +13,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +34,8 @@ public class MainHandler {
     private final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
     private final InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
     private final UserService userService;
+    private final ChatService chatService;
+    private final MessageService messageService;
 
     @Value("${bot.number}")
     private String number;
@@ -311,5 +321,76 @@ public class MainHandler {
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
         inlineKeyboardMarkup.setKeyboard(keyboard);
         return sendMessage;
+    }
+
+    public SendMessage backButton(SendMessage sendMessage){
+        List<KeyboardRow> keyboard = new ArrayList<>();
+
+        KeyboardRow keyboardRow = new KeyboardRow();
+        keyboardRow.add(new KeyboardButton("Назад"));
+
+        keyboard.add(keyboardRow);
+        replyKeyboardMarkup.setKeyboard(keyboard);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+
+        return sendMessage;
+    }
+
+    public SendMessage startOnlineChat(Update update){
+        List<UserEntity> managers = userService.findManagersOnline();
+        String chatId = String.valueOf(update.getMessage().getChatId());
+
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.enableMarkdown(true);
+
+        if (managers.isEmpty()){
+            sendMessage.setText("Извините, нет менеджеров в сети :(");
+            return startMenu(sendMessage);
+        }
+        UserEntity user = userService.getOrCreate(chatId);
+        user.setPosition("online_chat");
+        userService.update(user);
+
+        if (chatService.findChatEntityByUserId(chatId) == null){
+            ChatEntity chatEntity = new ChatEntity();
+            chatEntity.setUserId(chatId);
+            chatEntity.setAnswered(true);
+            String randomManager = String.valueOf(1 + (int)(Math.random() * managers.size()));
+            chatEntity.setManagerId(userService.getOrCreate(randomManager).getUserId());
+            chatService.update(chatEntity);
+        }
+
+        sendMessage.setText("Здравствуйте! Напишите ваш вопрос");
+
+        return backButton(sendMessage);
+    }
+
+    public SendMessage onlineChat(Update update){
+        String chatId = String.valueOf(update.getMessage().getChatId());
+        ChatEntity chatEntity = chatService.findChatEntityByUserId(chatId);
+        String question = update.getMessage().getText();
+
+        MessageEntity messageEntity = new MessageEntity();
+        messageEntity.setChatId(chatEntity.getChatId());
+        messageEntity.setUserId(chatId);
+        messageEntity.setMessageTime(LocalDateTime.of(LocalDate.now(), LocalTime.now()));
+        messageEntity.setText(question);
+        messageService.update(messageEntity);
+
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.enableMarkdown(true);
+        sendMessage.setText("Сообщение отправлено менеджеру!");
+
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("start");
+        userService.update(userEntity);
+
+        chatEntity.setAnswered(false);
+        chatService.update(chatEntity);
+
+        return startMenu(sendMessage);
     }
 }

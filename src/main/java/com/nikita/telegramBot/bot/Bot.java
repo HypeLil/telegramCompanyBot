@@ -23,6 +23,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 @Component
 @ComponentScan(basePackages = "application.yaml")
 @Slf4j
@@ -62,6 +66,9 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        userEntity.setLastAction(LocalDateTime.of(LocalDate.now(), LocalTime.now()));
+        userService.update(userEntity);
+
         if (update.hasMessage()) {
             String command = update.getMessage().getText();
 
@@ -81,6 +88,9 @@ public class Bot extends TelegramLongPollingBot {
                 }
                 else if ("enter_email".equalsIgnoreCase(position)){
                     executeMessage(orderHandler.result(update));
+                }
+                else if ("online_chat".equalsIgnoreCase(position)){
+                    executeMessage(mainHandler.onlineChat(update));
                 }
                 else if ("admin_permission".equalsIgnoreCase(position)){
                     executeMessage(adminPanel.issuePermissionsPartTwo(update));
@@ -187,6 +197,11 @@ public class Bot extends TelegramLongPollingBot {
                 executeMessage(adminPanel.issuePermissions(update));
             }
 
+        }
+        else if (update.hasCallbackQuery()){
+            if ("chat_with_manager".equalsIgnoreCase(update.getCallbackQuery().getData())){
+                 executeMessage(mainHandler.startOnlineChat(update));
+            }
         }
     }
 

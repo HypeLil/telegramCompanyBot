@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -25,7 +26,7 @@ public class UserEntity {
   private String email;
   private String orderPosition;
   private boolean online;
-  private String lastAction;
+  private LocalDateTime lastAction;
 
   public UserEntity(String userId) {
     this.userId = userId;
@@ -36,6 +37,6 @@ public class UserEntity {
     this.email = "@";
     this.orderPosition = "";
     this.online = false;
-    this.lastAction = new SimpleDateFormat("yyyy.MM.dd G 'в' HH:mm:ss").format(new Date());
+    this.lastAction = LocalDateTime.now();
   }
 }

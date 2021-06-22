@@ -4,9 +4,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -16,8 +15,10 @@ import javax.persistence.Table;
 public class MessageEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int messageId;
-    private String chatId;
+    private int chatId;
     private String text;
-    private String messageTime;
+    private LocalDateTime messageTime;
+    private String userId;
 }

@@ -7,22 +7,24 @@ CREATE TABLE users (
                          position varchar(50),
                          order_position varchar(25),
                          online boolean,
-                         last_action varchar(50),
+                         last_action TIMESTAMP,
                          CONSTRAINT pk_user PRIMARY KEY (user_id)
 );
 
 CREATE TABLE chat (
-    chat_id varchar(10),
+    chat_id serial,
     user_id varchar(20),
     manager_id varchar(20),
-    last_message varchar,
+    last_message TIMESTAMP,
     CONSTRAINT pk_chat PRIMARY KEY (chat_id)
 );
 
 CREATE TABLE message (
-    message_id int,
-    chat_id varchar(10),
+    message_id serial,
+    chat_id int,
+    user_id varchar(20),
     text text,
-    message_time varchar(50),
+    message_time TIMESTAMP,
+    answered boolean,
     CONSTRAINT pk_message PRIMARY KEY (message_id)
 );
