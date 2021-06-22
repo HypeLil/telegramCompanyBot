@@ -1,6 +1,6 @@
 package com.nikita.telegramBot.bot.handler;
 
-import com.nikita.telegramBot.model.User;
+import com.nikita.telegramBot.model.UserEntity;
 import com.nikita.telegramBot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -22,9 +22,9 @@ public class SetsHandler {
 
     public SendMessage opt(Update update) {
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
-        user.setPosition("opt");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("opt");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -66,9 +66,9 @@ public class SetsHandler {
 
     public SendMessage complex(Update update) {
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
-        user.setPosition("complex");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("complex");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -105,9 +105,9 @@ public class SetsHandler {
 
     public SendMessage customs(Update update) {
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
-        user.setPosition("sets_custom");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("sets_custom");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -141,9 +141,9 @@ public class SetsHandler {
 
     public SendMessage provider(Update update) {
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
-        user.setPosition("sets_provider");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("sets_provider");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);

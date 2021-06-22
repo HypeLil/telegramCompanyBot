@@ -1,6 +1,6 @@
 package com.nikita.telegramBot.bot.services.cargos;
 
-import com.nikita.telegramBot.model.User;
+import com.nikita.telegramBot.model.UserEntity;
 import com.nikita.telegramBot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +27,9 @@ public class Turkish implements Cargo{
     @Override
     public SendMessage start(Update update) {
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
-        user.setPosition("turkish");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("turkish");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -64,9 +64,9 @@ public class Turkish implements Cargo{
 
     public SendMessage sky(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
-        user.setPosition("turkish_sky");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("turkish_sky");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -99,9 +99,9 @@ public class Turkish implements Cargo{
 
     public SendMessage auto(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
-        user.setPosition("turkish_auto");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("turkish_auto");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -134,9 +134,9 @@ public class Turkish implements Cargo{
 
     public SendMessage multi(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
-        user.setPosition("turkish_multi");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("turkish_multi");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);

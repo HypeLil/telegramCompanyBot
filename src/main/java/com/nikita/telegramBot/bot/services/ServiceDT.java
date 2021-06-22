@@ -1,6 +1,6 @@
 package com.nikita.telegramBot.bot.services;
 
-import com.nikita.telegramBot.model.User;
+import com.nikita.telegramBot.model.UserEntity;
 import com.nikita.telegramBot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +24,9 @@ public class ServiceDT {
 
     public SendMessage start(Update update) {
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
-        user.setPosition("dt-service");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("dt-service");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -59,9 +59,9 @@ public class ServiceDT {
 
     public SendMessage client(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
-        user.setPosition("dt-service_client");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("dt-service_client");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -95,9 +95,9 @@ public class ServiceDT {
 
     public SendMessage broker(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
-        user.setPosition("dt-service_broker");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("dt-service_broker");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);

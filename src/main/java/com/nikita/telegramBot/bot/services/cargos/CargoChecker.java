@@ -1,6 +1,6 @@
 package com.nikita.telegramBot.bot.services.cargos;
 
-import com.nikita.telegramBot.model.User;
+import com.nikita.telegramBot.model.UserEntity;
 import com.nikita.telegramBot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,9 +36,9 @@ public class CargoChecker {
     }
 
     public SendMessage cargo(Update update){
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
 
-        String com = user.getPosition().split("_")[1];
+        String com = userEntity.getPosition().split("_")[1];
         log.info("Запрос в чекере {}", com);
 
         if ("turkish".equalsIgnoreCase(com)){

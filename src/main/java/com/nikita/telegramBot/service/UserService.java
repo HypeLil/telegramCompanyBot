@@ -1,6 +1,6 @@
 package com.nikita.telegramBot.service;
 
-import com.nikita.telegramBot.model.User;
+import com.nikita.telegramBot.model.UserEntity;
 import com.nikita.telegramBot.repo.JpaUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,21 +18,21 @@ public class UserService {
 
     private final JpaUserRepository repository;
 
-    public User update(User user) {
-        if (user.getUserId() == null){
+    public UserEntity update(UserEntity userEntity) {
+        if (userEntity.getUserId() == null){
             log.error("Id равен null");
         }
-        return repository.save(user);
+        return repository.save(userEntity);
     }
 
-    public User getOrCreate(String id) {
+    public UserEntity getOrCreate(String id) {
         return get(id).orElseGet(
-                () -> update(new User(id)));
+                () -> update(new UserEntity(id)));
     }
 
-    public Optional<User> get(String chatId) {
+    private Optional<UserEntity> get(String chatId) {
         return repository.findById(chatId);
     }
-    public List<User> whoIsOnline(){return repository.findAllOnline();}
+    public List<UserEntity> whoIsOnline(){return repository.findAllOnline();}
 
 }

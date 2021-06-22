@@ -1,13 +1,12 @@
 package com.nikita.telegramBot.bot.handler;
 
-import com.nikita.telegramBot.model.User;
+import com.nikita.telegramBot.model.UserEntity;
 import com.nikita.telegramBot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -25,9 +24,9 @@ public class ServiceCatalog {
 
     public SendMessage cargo(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        user.setPosition("cargo");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        userEntity.setPosition("cargo");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -61,9 +60,9 @@ public class ServiceCatalog {
     public SendMessage serviceDt(Update update){
 
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        user.setPosition("dt");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        userEntity.setPosition("dt");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -93,9 +92,9 @@ public class ServiceCatalog {
 
     public SendMessage startService(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        user.setPosition("catalog");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        userEntity.setPosition("catalog");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);

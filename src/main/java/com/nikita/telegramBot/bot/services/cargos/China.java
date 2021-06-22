@@ -1,6 +1,6 @@
 package com.nikita.telegramBot.bot.services.cargos;
 
-import com.nikita.telegramBot.model.User;
+import com.nikita.telegramBot.model.UserEntity;
 import com.nikita.telegramBot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +27,9 @@ public class China implements Cargo{
     @Override
     public SendMessage start(Update update) {
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
-        user.setPosition("china");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("china");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -64,9 +64,9 @@ public class China implements Cargo{
 
     public SendMessage sky(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
-        user.setPosition("china_sky");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("china_sky");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -99,9 +99,9 @@ public class China implements Cargo{
 
     public SendMessage auto(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
-        user.setPosition("china_auto");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("china_auto");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -133,9 +133,9 @@ public class China implements Cargo{
 
     public SendMessage train(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
-        user.setPosition("china_train");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("china_train");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);

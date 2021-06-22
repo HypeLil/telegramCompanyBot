@@ -11,7 +11,7 @@ import java.util.Date;
 @Setter
 @Table(name = "users")
 @NoArgsConstructor
-public class User {
+public class UserEntity {
 
   @Id
   private String userId;
@@ -27,7 +27,7 @@ public class User {
   private boolean online;
   private String lastAction;
 
-  public User(String userId) {
+  public UserEntity(String userId) {
     this.userId = userId;
     this.role = Role.USER;
     this.position = "start";

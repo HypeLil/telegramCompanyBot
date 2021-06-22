@@ -1,6 +1,6 @@
 package com.nikita.telegramBot.bot.services.cargos;
 
-import com.nikita.telegramBot.model.User;
+import com.nikita.telegramBot.model.UserEntity;
 import com.nikita.telegramBot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +31,9 @@ public class Europe implements Cargo{
     @Override
     public SendMessage start(Update update) {
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
-        user.setPosition("carg_europe");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(chatId);
+        userEntity.setPosition("carg_europe");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -75,7 +75,7 @@ public class Europe implements Cargo{
 
     public SendMessage userAnswer(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
+        UserEntity userEntity = userService.getOrCreate(chatId);
         int ans = 0;
 
         String answer = update.getMessage().getText();
@@ -96,8 +96,8 @@ public class Europe implements Cargo{
             return sendMessage;
         }
         sendMessage.setText("Вы выбрали " + countries[ans-1]);
-        user.setPosition("заказ_" + countries[ans-1]);
-        userService.update(user);
+        userEntity.setPosition("заказ_" + countries[ans-1]);
+        userService.update(userEntity);
 
         List<KeyboardRow> keyboardRowList = new ArrayList<>();
 

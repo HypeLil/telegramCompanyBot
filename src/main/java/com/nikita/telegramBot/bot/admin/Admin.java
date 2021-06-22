@@ -1,7 +1,7 @@
 package com.nikita.telegramBot.bot.admin;
 
 import com.nikita.telegramBot.model.Role;
-import com.nikita.telegramBot.model.User;
+import com.nikita.telegramBot.model.UserEntity;
 import com.nikita.telegramBot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,14 +28,14 @@ public class Admin {
     private final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
 
     public SendMessage whoIsOnline(Update update){
-        List<User> onlineUsers = userService.whoIsOnline();
+        List<UserEntity> onlineUserEntities = userService.whoIsOnline();
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
         sendMessage.enableMarkdown(true);
 
         StringBuilder sb = new StringBuilder();
         sb.append("Онлайн:\n");
-        for (User u : onlineUsers){
+        for (UserEntity u : onlineUserEntities){
             String role =  u.getRole() == Role.MANAGER ? "Менеджер" : "Администратор";
             if (u.getUserId().equals(botAdmin)){
 
@@ -63,16 +63,16 @@ public class Admin {
     }
 
     public SendMessage issuePermissions(Update update){
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        user.setPosition("admin_permission");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        userEntity.setPosition("admin_permission");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
         sendMessage.enableMarkdown(true);
 
        StringBuilder sb = new StringBuilder();
-        if (!user.getUserId().equals(botAdmin)){
+        if (!userEntity.getUserId().equals(botAdmin)){
             sb.append("Вы можете назначать менеджеров и админов");
         } else  sb.append("Вы можете назначать только менеджеров");
 
@@ -83,7 +83,7 @@ public class Admin {
     }
 
     public SendMessage issuePermissionPartTwo(Update update){
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
         String newAdminId = update.getMessage().getText();
         int checkCorrectNewAdminId = 0;
 
@@ -98,8 +98,8 @@ public class Admin {
             return sendMessage;
         }
 
-        user.setPosition("admin_permission-role:" + newAdminId);
-        userService.update(user);
+        userEntity.setPosition("admin_permission-role:" + newAdminId);
+        userService.update(userEntity);
 
         sendMessage.setText("Выберите выдаваемые права:\n" +
                 "1 - Менеджер\n" +
@@ -109,8 +109,8 @@ public class Admin {
     }
 
     public SendMessage issuePermissionPartThree(Update update){
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        String newAdminId = user.getPosition().split(":")[1];
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        String newAdminId = userEntity.getPosition().split(":")[1];
         String text = update.getMessage().getText();
         String role = "";
 
@@ -129,8 +129,8 @@ public class Admin {
             return sendMessage;
         }
 
-        user.setPosition("admin_permission-name:" + newAdminId +":" + role);
-        userService.update(user);
+        userEntity.setPosition("admin_permission-name:" + newAdminId +":" + role);
+        userService.update(userEntity);
 
         sendMessage.setText("Введите ФИО сотрудника:");
 
@@ -138,12 +138,12 @@ public class Admin {
     }
 
     public List<SendMessage> issuePermissionPartFour(Update update){
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        String newAdminId = user.getPosition().split(":")[1];
-        String role = user.getPosition().split(":")[2];
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        String newAdminId = userEntity.getPosition().split(":")[1];
+        String role = userEntity.getPosition().split(":")[2];
         String name = update.getMessage().getText();
 
-        User newAdmin = userService.getOrCreate(newAdminId);
+        UserEntity newAdmin = userService.getOrCreate(newAdminId);
         newAdmin.setRole(role.equals("manager") ? Role.MANAGER : Role.ADMIN);
         newAdmin.setName(name);
         userService.update(newAdmin);

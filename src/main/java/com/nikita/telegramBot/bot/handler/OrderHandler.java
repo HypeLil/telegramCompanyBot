@@ -1,7 +1,7 @@
 package com.nikita.telegramBot.bot.handler;
 
 
-import com.nikita.telegramBot.model.User;
+import com.nikita.telegramBot.model.UserEntity;
 import com.nikita.telegramBot.service.UserService;
 import com.nikita.telegramBot.util.mail.EmailSender;
 import lombok.RequiredArgsConstructor;
@@ -72,17 +72,17 @@ public class OrderHandler {
     }
 
     public SendMessage order(Update update){
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        String orderPosition = user.getPosition();
-        user.setOrderPosition(orderPosition);
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        String orderPosition = userEntity.getPosition();
+        userEntity.setOrderPosition(orderPosition);
 
         String message = "Введите ФИО";
-        user.setPosition("enter_name");
-        userService.update(user);
+        userEntity.setPosition("enter_name");
+        userService.update(userEntity);
         log.info("Ввод фио");
 
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(user.getUserId());
+        sendMessage.setChatId(userEntity.getUserId());
         sendMessage.enableMarkdown(true);
 
         replyKeyboardMarkup.setResizeKeyboard(true);
@@ -101,18 +101,18 @@ public class OrderHandler {
     }
 
     public SendMessage enterName(Update update){
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
         String name = update.getMessage().getText();
 
         String message = "Введите номер";
-        user.setPosition("enter_number");
-        user.setName(name);
+        userEntity.setPosition("enter_number");
+        userEntity.setName(name);
         log.info("Ввод номера");
 
-        userService.update(user);
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(user.getUserId());
+        sendMessage.setChatId(userEntity.getUserId());
         sendMessage.enableMarkdown(true);
 
         replyKeyboardMarkup.setResizeKeyboard(true);
@@ -131,19 +131,19 @@ public class OrderHandler {
     }
 
     public SendMessage enterNumber(Update update){
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
         String number = update.getMessage().getText();
 
-        log.info("Позиция {} номер {}", user.getPosition(), number);
+        log.info("Позиция {} номер {}", userEntity.getPosition(), number);
         String message = "Введите почту";
-        user.setPosition("enter_email");
-        user.setNumber(number);
+        userEntity.setPosition("enter_email");
+        userEntity.setNumber(number);
         log.info("Ввод почты");
 
-        userService.update(user);
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(user.getUserId());
+        sendMessage.setChatId(userEntity.getUserId());
         sendMessage.enableMarkdown(true);
 
         replyKeyboardMarkup.setResizeKeyboard(true);
@@ -162,24 +162,24 @@ public class OrderHandler {
     }
 
     public SendMessage result(Update update){
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
         String email = update.getMessage().getText();
 
-        user.setPosition("start");
-        user.setEmail(email);
-        userService.update(user);
+        userEntity.setPosition("start");
+        userEntity.setEmail(email);
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(user.getUserId());
+        sendMessage.setChatId(userEntity.getUserId());
         sendMessage.enableMarkdown(true);
         sendMessage.setText(answer);
 
         StringBuilder sb = new StringBuilder();
-        sb.append(" ФИО: ").append(user.getName());
-        sb.append("\n Номер: ").append(user.getNumber());
-        sb.append("\n Почта: ").append(user.getEmail());
+        sb.append(" ФИО: ").append(userEntity.getName());
+        sb.append("\n Номер: ").append(userEntity.getNumber());
+        sb.append("\n Почта: ").append(userEntity.getEmail());
 
-        orderPosition = user.getOrderPosition();
+        orderPosition = userEntity.getOrderPosition();
         EmailSender.send(sb.toString(), orderType());
 
         return mainHandler.startMenu(sendMessage);

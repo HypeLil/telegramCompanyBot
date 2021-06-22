@@ -1,7 +1,7 @@
 package com.nikita.telegramBot.bot.handler;
 
 import com.nikita.telegramBot.model.Role;
-import com.nikita.telegramBot.model.User;
+import com.nikita.telegramBot.model.UserEntity;
 import com.nikita.telegramBot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,11 +35,11 @@ public class MainHandler {
 
     public SendMessage start(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(chatId);
+        UserEntity userEntity = userService.getOrCreate(chatId);
 
-        if (botAdmin.equals(user.getUserId()) && user.getRole() != Role.ADMIN){
-            user.setRole(Role.ADMIN);
-            userService.update(user);
+        if (botAdmin.equals(userEntity.getUserId()) && userEntity.getRole() != Role.ADMIN){
+            userEntity.setRole(Role.ADMIN);
+            userService.update(userEntity);
         }
 
         SendMessage sendMessage = new SendMessage();
@@ -67,9 +67,9 @@ public class MainHandler {
 
     public SendMessage aboutCompany(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        user.setPosition("about_company");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        userEntity.setPosition("about_company");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -112,7 +112,7 @@ public class MainHandler {
     }
 
     public SendMessage startMenu(SendMessage sendMessage){
-        User user = userService.getOrCreate(sendMessage.getChatId());
+        UserEntity userEntity = userService.getOrCreate(sendMessage.getChatId());
 
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setSelective(true);
@@ -122,7 +122,7 @@ public class MainHandler {
         // Создаем список строк клавиатуры
         List<KeyboardRow> keyboard = new ArrayList<>();
 
-        if (user.getRole() == Role.ADMIN || user.getRole() == Role.MANAGER){
+        if (userEntity.getRole() == Role.ADMIN || userEntity.getRole() == Role.MANAGER){
             KeyboardRow keyb = new KeyboardRow();
             keyb.add(new KeyboardButton("Админ-панель"));
             keyboard.add(keyb);
@@ -196,9 +196,9 @@ public class MainHandler {
 
     public SendMessage completedSets(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        user.setPosition("completed_sets");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        userEntity.setPosition("completed_sets");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -240,9 +240,9 @@ public class MainHandler {
 
     public SendMessage startService(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        user.setPosition("catalog");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        userEntity.setPosition("catalog");
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);

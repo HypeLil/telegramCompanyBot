@@ -1,7 +1,7 @@
 package com.nikita.telegramBot.bot.admin;
 
 import com.nikita.telegramBot.model.Role;
-import com.nikita.telegramBot.model.User;
+import com.nikita.telegramBot.model.UserEntity;
 import com.nikita.telegramBot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,12 +25,12 @@ public class AdminPanel {
     private final Admin admin;
 
     public SendMessage startAdmin(Update update){
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
         sendMessage.enableMarkdown(true);
 
-        if (user.getRole() == Role.USER){
+        if (userEntity.getRole() == Role.USER){
             sendMessage.setText("Вы не админ!");
             log.error("Попытка входа в админ-панель без прав");
             return sendMessage;
@@ -39,17 +39,17 @@ public class AdminPanel {
         sendMessage.setText("Админ-панель открыта");
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
 
-        return adminMenu(sendMessage, user);
+        return adminMenu(sendMessage, userEntity);
     }
 
-    public SendMessage adminMenu(SendMessage sendMessage, User user){
+    public SendMessage adminMenu(SendMessage sendMessage, UserEntity userEntity){
         List<KeyboardRow> keyboard = new ArrayList<>();
 
         KeyboardRow keyboardOne = new KeyboardRow();
         keyboardOne.add(new KeyboardButton("Войти/Выйти из сети"));
         keyboard.add(keyboardOne);
 
-        if (user.getRole() == Role.MANAGER){
+        if (userEntity.getRole() == Role.MANAGER){
             KeyboardRow keyboardTwo = new KeyboardRow();
             keyboardTwo.add(new KeyboardButton("Список чатов без ответа"));
 
@@ -59,7 +59,7 @@ public class AdminPanel {
             keyboard.add(keyboardTwo);
             keyboard.add(keyboardThree);
         }
-        if (user.getRole() == Role.ADMIN){
+        if (userEntity.getRole() == Role.ADMIN){
             KeyboardRow keyboardTwo = new KeyboardRow();
             keyboardTwo.add(new KeyboardButton("Администрация онлайн"));
 
@@ -88,19 +88,19 @@ public class AdminPanel {
     }
 
     public SendMessage online(Update update){
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        user.setOnline(!user.isOnline());
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        userEntity.setOnline(!userEntity.isOnline());
+        userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
         sendMessage.enableMarkdown(true);
 
-        if (user.isOnline()){
+        if (userEntity.isOnline()){
             sendMessage.setText("Вы вошли в сеть");
         } else sendMessage.setText("Вы вышли из сети");
 
-        return adminMenu(sendMessage, user);
+        return adminMenu(sendMessage, userEntity);
     }
     public SendMessage whoIsOnline(Update update){
         return admin.whoIsOnline(update);

@@ -10,7 +10,7 @@ import com.nikita.telegramBot.bot.services.cargos.China;
 import com.nikita.telegramBot.bot.services.cargos.Turkish;
 import com.nikita.telegramBot.bot.handler.MainHandler;
 import com.nikita.telegramBot.bot.handler.ServiceCatalog;
-import com.nikita.telegramBot.model.User;
+import com.nikita.telegramBot.model.UserEntity;
 import com.nikita.telegramBot.service.UserService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +61,7 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
         if (update.hasMessage()) {
             String command = update.getMessage().getText();
 
@@ -71,8 +71,8 @@ public class Bot extends TelegramLongPollingBot {
             }
 
             // проверка на наличие ввода данных для заявки на заказ
-            if (!user.getPosition().equalsIgnoreCase("start")){
-                String position = user.getPosition();
+            if (!userEntity.getPosition().equalsIgnoreCase("start")){
+                String position = userEntity.getPosition();
                 if ("enter_name".equalsIgnoreCase(position)){
                     executeMessage(orderHandler.enterName(update));
                 }
@@ -93,7 +93,7 @@ public class Bot extends TelegramLongPollingBot {
                 }
             }
 
-            if ("carg".equalsIgnoreCase(user.getPosition().split("_")[0]) && !"Назад".equalsIgnoreCase(command)){
+            if ("carg".equalsIgnoreCase(userEntity.getPosition().split("_")[0]) && !"Назад".equalsIgnoreCase(command)){
                 executeMessage(cargoChecker.cargo(update));
             }
                 userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
@@ -150,7 +150,7 @@ public class Bot extends TelegramLongPollingBot {
             else if ("Сертификация".equalsIgnoreCase(command)){
                 executeMessage(sertification.start(update));
             }
-            else if ("Таможенное оформление".equalsIgnoreCase(command) && "catalog".equalsIgnoreCase(user.getPosition())){
+            else if ("Таможенное оформление".equalsIgnoreCase(command) && "catalog".equalsIgnoreCase(userEntity.getPosition())){
                 executeMessage(sertification.customs(update));
             }
             else if ("Поиск поставщика".equalsIgnoreCase(command)){
@@ -199,10 +199,10 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     public SendMessage back(Update update){
-        User user = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        String position = user.getPosition();
-        user.setPosition("start");
-        userService.update(user);
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        String position = userEntity.getPosition();
+        userEntity.setPosition("start");
+        userService.update(userEntity);
 
         if ("carg_europe".equalsIgnoreCase(position)){
             return serviceCatalog.startService(update);
