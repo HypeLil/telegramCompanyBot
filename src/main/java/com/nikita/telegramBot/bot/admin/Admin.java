@@ -369,11 +369,13 @@ public class Admin extends AbstractAdminPanel{
         keyboardRowList.add(keyboardRow1);
 
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
+        replyKeyboardMarkup.setResizeKeyboard(true);
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(admin.getUserId());
         sendMessage.enableMarkdown(true);
         sendMessage.setText(sb.toString());
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
 
         return sendMessage;
     }
@@ -394,11 +396,10 @@ public class Admin extends AbstractAdminPanel{
 
     public SendMessage resultAnalytics(Update update){
         UserEntity admin = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        String position = admin.getPosition();
         admin.setPosition("start");
         userService.update(admin);
 
-        String[] dates = position.split(" - ");
+        String[] dates = update.getMessage().getText().split(" - ");
         LocalDate startDate = LocalDate.of(Integer.parseInt(dates[0].split(" ")[0]), Integer.parseInt(dates[0].split(" ")[1]),
                 Integer.parseInt(dates[0].split(" ")[2]));
         LocalDate endDate = LocalDate.of(Integer.parseInt(dates[1].split(" ")[0]), Integer.parseInt(dates[1].split(" ")[1]),
@@ -423,7 +424,7 @@ public class Admin extends AbstractAdminPanel{
 
         sb.append("Кол-во диалогов начиная с ").append(startDate).append(" заканчивая ")
                 .append(endDate).append(" = ").append(countChat);
-
+        sendMessage.setText(sb.toString());
         return adminMenu(sendMessage, admin);
     }
 
