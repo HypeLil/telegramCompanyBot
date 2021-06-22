@@ -9,15 +9,14 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-@Table(name = "usr")
+@Table(name = "users")
 @NoArgsConstructor
 public class User {
 
   @Id
-  @Column(name = "usr_id")
   private String userId;
 
-  @Enumerated(EnumType.STRING)
+  @Enumerated(EnumType.ORDINAL)
   private Role role;
 
   private String position;

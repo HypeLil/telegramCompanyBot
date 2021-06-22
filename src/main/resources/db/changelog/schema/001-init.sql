@@ -1,12 +1,12 @@
-CREATE TABLE usr (
-                         usr_id varchar NOT NULL,
-                         name varchar,
-                         number varchar,
-                         email varchar,
-                         role varchar,
-                         position varchar,
-                         order_position varchar,
+CREATE TABLE users (
+                         user_id varchar(20),
+                         name varchar(50),
+                         number varchar(15),
+                         email varchar(25),
+                         role varchar(2),
+                         position varchar(50),
+                         order_position varchar(25),
                          online boolean,
-                         last_action varchar,
-                         CONSTRAINT pk_user PRIMARY KEY (usr_id)
+                         last_action varchar(50),
+                         CONSTRAINT pk_user PRIMARY KEY (user_id)
 );

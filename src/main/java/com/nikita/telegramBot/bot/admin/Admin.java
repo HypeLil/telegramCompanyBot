@@ -37,6 +37,11 @@ public class Admin {
         sb.append("Онлайн:\n");
         for (User u : onlineUsers){
             String role =  u.getRole() == Role.MANAGER ? "Менеджер" : "Администратор";
+            if (u.getUserId().equals(botAdmin)){
+
+                role = "Главный администратор";
+            }
+
             sb.append(u.getName()).append(" - ").append(role).append("\n");
         }
         sendMessage.setText(sb.toString());

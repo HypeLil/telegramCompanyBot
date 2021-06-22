@@ -1,6 +1,5 @@
 package com.nikita.telegramBot.service;
 
-import com.nikita.telegramBot.model.Role;
 import com.nikita.telegramBot.model.User;
 import com.nikita.telegramBot.repo.JpaUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,11 +25,6 @@ public class UserService {
         return repository.save(user);
     }
 
-    public void deleteById(String id) {
-        User user = get(id).get();
-        repository.deleteById(id);
-    }
-
     public User getOrCreate(String id) {
         return get(id).orElseGet(
                 () -> update(new User(id)));
@@ -38,9 +32,6 @@ public class UserService {
 
     public Optional<User> get(String chatId) {
         return repository.findById(chatId);
-    }
-    public List<User> getUsers() {
-        return repository.findAll();
     }
     public List<User> whoIsOnline(){return repository.findAllOnline();}
 

@@ -1,9 +1,9 @@
 package com.nikita.telegramBot.util;
 
-public final class TelegramUtil {
+import lombok.experimental.UtilityClass;
 
-    public TelegramUtil() {
-    }
+@UtilityClass
+public class TelegramUtil {
 
     public static String extractCommand(String text) {
         return text.split(" ")[0];
