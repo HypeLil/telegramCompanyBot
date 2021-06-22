@@ -32,8 +32,12 @@ public class UserService {
         return repository.findById(chatId);
     }
     public List<UserEntity> whoIsOnline(){return repository.findAllOnline();}
-    public List<UserEntity> findManagersOnline(){
-        return repository.findManagersOnline();
+    public List<UserEntity> findManagersOnline(){ return repository.findManagersOnline(); }
+    public List<UserEntity> findManagers(){
+        return repository.findManagers();
+    }
+    public List<UserEntity> findAllUsersNotAdmins(){
+        return repository.findAllUsersNotAdmins();
     }
 
 }

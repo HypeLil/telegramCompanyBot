@@ -16,6 +16,7 @@ CREATE TABLE chat (
     user_id varchar(20),
     manager_id varchar(20),
     answered boolean,
+    last_message TIMESTAMP,
     CONSTRAINT pk_chat PRIMARY KEY (chat_id)
 );
 

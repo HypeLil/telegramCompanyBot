@@ -4,8 +4,10 @@ import com.nikita.telegramBot.model.ChatEntity;
 import com.nikita.telegramBot.repo.JpaChatRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.Chat;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,10 +21,6 @@ public class ChatService {
         return repository.findAllChatsByManagerId(managerId);
     }
 
-    public ChatEntity findChatEntityByUserIdAndManagerId(String userId, String managerId){
-        return repository.findChatEntityByUserIdAndManagerId(userId,managerId);
-    }
-
     public ChatEntity update(ChatEntity chatEntity){
         return repository.save(chatEntity);
     }
@@ -33,5 +31,13 @@ public class ChatService {
 
     public ChatEntity findByChatId(int chatId){
         return repository.findById(chatId).get();
+    }
+
+    public void delete(List<ChatEntity> chatEntities){
+        repository.deleteAll(chatEntities);
+    }
+
+    public List<ChatEntity> getBetweenHalfOpen(LocalDateTime start,LocalDateTime end){
+        return repository.getBetweenHalfOpen(start, end);
     }
 }

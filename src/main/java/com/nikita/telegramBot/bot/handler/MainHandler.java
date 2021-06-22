@@ -368,7 +368,7 @@ public class MainHandler {
         return backButton(sendMessage);
     }
 
-    public SendMessage onlineChat(Update update){
+    public List<SendMessage> onlineChat(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
         ChatEntity chatEntity = chatService.findChatEntityByUserId(chatId);
         String question = update.getMessage().getText();
@@ -380,18 +380,28 @@ public class MainHandler {
         messageEntity.setText(question);
         messageService.update(messageEntity);
 
+        List<SendMessage> messages = new ArrayList<>();
+
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.enableMarkdown(true);
         sendMessage.setText("Сообщение отправлено менеджеру!");
+        messages.add(startMenu(sendMessage));
 
         UserEntity userEntity = userService.getOrCreate(chatId);
         userEntity.setPosition("start");
         userService.update(userEntity);
 
         chatEntity.setAnswered(false);
+        chatEntity.setLastMessage(messageEntity.getMessageTime());
         chatService.update(chatEntity);
 
-        return startMenu(sendMessage);
+        sendMessage = new SendMessage();
+        sendMessage.setChatId(chatEntity.getManagerId());
+        sendMessage.enableMarkdown(true);
+        sendMessage.setText("Новый запрос в поддержку!");
+        messages.add(sendMessage);
+
+        return messages;
     }
 }

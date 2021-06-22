@@ -22,4 +22,8 @@ public class MessageService {
     public MessageEntity update(MessageEntity messageEntity){
         return repository.save(messageEntity);
     }
+
+    public MessageEntity findById(int chatId){
+        return repository.findById(chatId).get();
+    }
 }

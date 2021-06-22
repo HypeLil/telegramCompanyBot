@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "chat")
@@ -20,4 +21,5 @@ public class ChatEntity {
     private String userId;
     private String managerId;
     private Boolean answered;
+    private LocalDateTime lastMessage;
 }

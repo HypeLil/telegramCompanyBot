@@ -13,7 +13,7 @@ import java.util.Properties;
 @Slf4j
 public class EmailSender {
 
-    private final static String mainMail = "liltupics@gmail.com";
+    private final static String mainMail = "zapros@free-lines.ru";
     private final static String userLogin = "liltupics.bot@gmail.com";
     private final static String userPassword = "91823God";
 

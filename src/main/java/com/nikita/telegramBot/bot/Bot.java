@@ -1,5 +1,6 @@
 package com.nikita.telegramBot.bot;
 
+import com.nikita.telegramBot.bot.admin.Admin;
 import com.nikita.telegramBot.bot.admin.AdminPanel;
 import com.nikita.telegramBot.bot.admin.Manager;
 import com.nikita.telegramBot.bot.handler.OrderHandler;
@@ -91,13 +92,22 @@ public class Bot extends TelegramLongPollingBot {
                     executeMessage(orderHandler.result(update));
                 }
                 else if ("online_chat".equalsIgnoreCase(position)){
-                    executeMessage(mainHandler.onlineChat(update));
+                    mainHandler.onlineChat(update).forEach(this::executeMessage);
                 }
                 else if ("admin_permission".equalsIgnoreCase(position)){
                     executeMessage(adminPanel.issuePermissionsPartTwo(update));
                 }
                 else if ("online-answers".equalsIgnoreCase(position)){
                     executeMessage(manager.enteredChat(update));
+                }
+                else if ("admin_suggest".equalsIgnoreCase(position)){
+                    executeMessage(adminPanel.resultAnalytics(update));
+                }
+                else if ("entered-manager".equalsIgnoreCase(position)){
+                    executeMessage(adminPanel.listOfQuestions(update));
+                }
+                else if (position.split(":").length > 1 && "entered-manager".equals(position.split(":")[0])){
+                    executeMessage(adminPanel.dialogueWithUser(update));
                 }
                 else if (position.split(":").length > 1 && "online-answers-entered".equalsIgnoreCase(position.split(":")[0])){
                     String text = update.getMessage().getText();
@@ -213,6 +223,21 @@ public class Bot extends TelegramLongPollingBot {
             }
             else if ("Список чатов".equalsIgnoreCase(command)){
                 executeMessage(manager.listOfQuestions(update));
+            }
+            else if ("Список чатов поддержки".equalsIgnoreCase(command)){
+                executeMessage(adminPanel.listOfManagers(update));
+            }
+            else if ("О пользователе".equalsIgnoreCase(command)){
+                executeMessage(adminPanel.aboutUser(update));
+            }
+            else if ("Диалог менеджера".equalsIgnoreCase(command)){
+                adminPanel.dialogueOfManager(update).forEach(this::executeMessage);
+            }
+            else if ("Аналитика".equalsIgnoreCase(command)){
+                executeMessage(adminPanel.analytics(update));
+            }
+            else if ("Кол-во диалогов".equalsIgnoreCase(command)){
+                executeMessage(adminPanel.suggestDate(update));
             }
 
         }

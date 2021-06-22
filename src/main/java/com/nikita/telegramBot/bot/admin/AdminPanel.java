@@ -8,20 +8,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class AdminPanel {
+public class AdminPanel extends AbstractAdminPanel{
 
     private final UserService userService;
-    private final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
     private final Admin admin;
 
     public SendMessage startAdmin(Update update){
@@ -37,55 +31,11 @@ public class AdminPanel {
         }
 
         sendMessage.setText("Админ-панель открыта");
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        sendMessage.setReplyMarkup(super.replyKeyboardMarkup);
 
         return adminMenu(sendMessage, userEntity);
     }
 
-    public SendMessage adminMenu(SendMessage sendMessage, UserEntity userEntity){
-        List<KeyboardRow> keyboard = new ArrayList<>();
-
-        KeyboardRow keyboardOne = new KeyboardRow();
-        keyboardOne.add(new KeyboardButton("Войти/Выйти из сети"));
-        keyboard.add(keyboardOne);
-
-        if (userEntity.getRole() == Role.MANAGER){
-            KeyboardRow keyboardTwo = new KeyboardRow();
-            keyboardTwo.add(new KeyboardButton("Список чатов"));
-
-            KeyboardRow keyboardThree = new KeyboardRow();
-            keyboardThree.add(new KeyboardButton("Выйти из админ-панели"));
-
-            keyboard.add(keyboardTwo);
-            keyboard.add(keyboardThree);
-        }
-        if (userEntity.getRole() == Role.ADMIN){
-            KeyboardRow keyboardTwo = new KeyboardRow();
-            keyboardTwo.add(new KeyboardButton("Администрация онлайн"));
-
-            KeyboardRow keyboardThree = new KeyboardRow();
-            keyboardThree.add(new KeyboardButton("Выдать права"));
-
-            KeyboardRow keyboardFour = new KeyboardRow();
-            keyboardFour.add(new KeyboardButton("Аналитика"));
-
-            KeyboardRow keyboardFive = new KeyboardRow();
-            keyboardFive.add(new KeyboardButton("Список чатов"));
-
-            KeyboardRow keyboardSix = new KeyboardRow();
-            keyboardSix.add(new KeyboardButton("Выйти из админ-панели"));
-
-            keyboard.add(keyboardTwo);
-            keyboard.add(keyboardThree);
-            keyboard.add(keyboardFour);
-            keyboard.add(keyboardFive);
-            keyboard.add(keyboardSix);
-        }
-        replyKeyboardMarkup.setKeyboard(keyboard);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-
-        return sendMessage;
-    }
 
     public SendMessage online(Update update){
         UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
@@ -116,6 +66,30 @@ public class AdminPanel {
     }
     public List<SendMessage> issuePermissionsPartFour(Update update){
         return admin.issuePermissionPartFour(update);
+    }
+    public SendMessage listOfQuestions(Update update){
+        return admin.listOfQuestions(update);
+    }
+    public SendMessage dialogueWithUser(Update update){
+        return admin.dialogueWithUser(update);
+    }
+    public SendMessage listOfManagers(Update update){
+        return admin.listOfManagers(update);
+    }
+    public SendMessage aboutUser(Update update){
+        return admin.aboutUser(update);
+    }
+    public List<SendMessage> dialogueOfManager(Update update){
+        return admin.dialogueOfManager(update);
+    }
+    public SendMessage analytics(Update update){
+        return admin.analytics(update);
+    }
+    public SendMessage suggestDate(Update update){
+        return admin.suggestDate(update);
+    }
+    public SendMessage resultAnalytics(Update update){
+        return admin.resultAnalytics(update);
     }
 
 }

@@ -18,7 +18,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,14 +59,20 @@ public class Manager {
         sb.append("Список диалогов\n(для выбора ответьте только цифрой без пробелов и прочего)\n\n");
 
         List<ChatEntity> chatEntities = chatService.findAllChatsByManagerId(managerId);
+        List<ChatEntity> wantBeDeleted = new ArrayList<>();
 
         if (chatEntities.isEmpty()){
             sb.append("Чатов нет");
             sendMessage.setText(sb.toString());
             return adminPanel.adminMenu(sendMessage, userEntity);
         }
-
+        LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now(), LocalTime.now());
         for (ChatEntity chatEntity : chatEntities){
+
+            if (localDateTime.minusWeeks(1).isAfter(chatEntity.getLastMessage())){
+                wantBeDeleted.add(chatEntity);
+            }
+
             UserEntity user = userService.getOrCreate(chatEntity.getUserId());
             sb.append(chatEntity.getChatId()).append(" - Пользователь: ").append(user.getName()).append(" | Отвечено: ");
             if (chatEntity.getAnswered()){
@@ -75,10 +80,10 @@ public class Manager {
             } else sb.append("Нет");
             sb.append("\n\n");
         }
+        chatService.delete(wantBeDeleted);
 
         userEntity.setPosition("online-answers");
         userService.update(userEntity);
-
         sendMessage.setText(sb.toString());
 
         return backButton(sendMessage);
@@ -197,6 +202,7 @@ public class Manager {
         messages.add(sendMessage);
 
         chatEntity.setAnswered(true);
+        chatEntity.setLastMessage(messageEntity.getMessageTime());
         chatService.update(chatEntity);
 
         sendMessage = new SendMessage();
