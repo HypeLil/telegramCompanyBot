@@ -5,13 +5,15 @@ import com.nikita.telegramBot.repo.JpaChatRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ChatService {
 
-    private JpaChatRepository repository;
+    private final JpaChatRepository repository;
 
     public List<ChatEntity> findAllChatsByManagerId(String managerId){
         return repository.findAllChatsByManagerId(managerId);
@@ -27,5 +29,9 @@ public class ChatService {
 
     public ChatEntity findChatEntityByUserId(String userId){
         return repository.findChatEntityByUserId(userId);
+    }
+
+    public ChatEntity findByChatId(int chatId){
+        return repository.findById(chatId).get();
     }
 }

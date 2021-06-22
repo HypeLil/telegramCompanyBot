@@ -12,5 +12,5 @@ import java.util.List;
 public interface JpaMessageRepository extends JpaRepository<MessageEntity, Integer> {
 
     @Query("SELECT m FROM MessageEntity m WHERE m.chatId=:chat")
-    public List<MessageEntity> findAllByChatId(@Param("chat") String chatId);
+    public List<MessageEntity> findAllByChatId(@Param("chat") int chatId);
 }

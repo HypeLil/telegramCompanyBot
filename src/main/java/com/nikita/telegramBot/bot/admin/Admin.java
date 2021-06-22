@@ -72,7 +72,7 @@ public class Admin {
         sendMessage.enableMarkdown(true);
 
        StringBuilder sb = new StringBuilder();
-        if (!userEntity.getUserId().equals(botAdmin)){
+        if (userEntity.getUserId().equals(botAdmin)){
             sb.append("Вы можете назначать менеджеров и админов");
         } else  sb.append("Вы можете назначать только менеджеров");
 

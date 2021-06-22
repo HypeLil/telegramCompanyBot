@@ -19,7 +19,5 @@ public class ChatEntity {
 
     private String userId;
     private String managerId;
-    // date
-    private String lastMessage;
     private Boolean answered;
 }

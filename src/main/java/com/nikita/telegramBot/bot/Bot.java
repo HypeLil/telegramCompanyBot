@@ -1,6 +1,7 @@
 package com.nikita.telegramBot.bot;
 
 import com.nikita.telegramBot.bot.admin.AdminPanel;
+import com.nikita.telegramBot.bot.admin.Manager;
 import com.nikita.telegramBot.bot.handler.OrderHandler;
 import com.nikita.telegramBot.bot.handler.SetsHandler;
 import com.nikita.telegramBot.bot.services.Sertification;
@@ -52,6 +53,7 @@ public class Bot extends TelegramLongPollingBot {
     private final SetsHandler setsHandler;
     private final OrderHandler orderHandler;
     private final AdminPanel adminPanel;
+    private final Manager manager;
 
     @Override
     public String getBotUsername() {
@@ -65,11 +67,10 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        userEntity.setLastAction(LocalDateTime.of(LocalDate.now(), LocalTime.now()));
-        userService.update(userEntity);
-
         if (update.hasMessage()) {
+            UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+            userEntity.setLastAction(LocalDateTime.of(LocalDate.now(), LocalTime.now()));
+            userService.update(userEntity);
             String command = update.getMessage().getText();
 
             if ("Назад".equalsIgnoreCase(command)){
@@ -77,7 +78,7 @@ public class Bot extends TelegramLongPollingBot {
                 return;
             }
 
-            // проверка на наличие ввода данных для заявки на заказ
+            // проверка позиций
             if (!userEntity.getPosition().equalsIgnoreCase("start")){
                 String position = userEntity.getPosition();
                 if ("enter_name".equalsIgnoreCase(position)){
@@ -95,10 +96,24 @@ public class Bot extends TelegramLongPollingBot {
                 else if ("admin_permission".equalsIgnoreCase(position)){
                     executeMessage(adminPanel.issuePermissionsPartTwo(update));
                 }
-                else if ("admin_permission-role".equalsIgnoreCase(position.split(":")[0])){
+                else if ("online-answers".equalsIgnoreCase(position)){
+                    executeMessage(manager.enteredChat(update));
+                }
+                else if (position.split(":").length > 1 && "online-answers-entered".equalsIgnoreCase(position.split(":")[0])){
+                    String text = update.getMessage().getText();
+                    if ("1".equals(text)){
+                        executeMessage(manager.answerChat(update));
+                    } else if ("2".equals(text)){
+                        manager.wholeDialogue(update).forEach(this::executeMessage);
+                    }
+                }
+                else if (position.split(":").length > 1 && "online-answer-now".equalsIgnoreCase(position.split(":")[0])){
+                    manager.answerMessageNow(update).forEach(this::executeMessage);
+                }
+                else if (position.split(":").length > 1 && "admin_permission-role".equalsIgnoreCase(position.split(":")[0])){
                     executeMessage(adminPanel.issuePermissionsPartThree(update));
                 }
-                else if ("admin_permission-name".equalsIgnoreCase(position.split(":")[0])){
+                else if (position.split(":").length > 1 && "admin_permission-name".equalsIgnoreCase(position.split(":")[0])){
                     adminPanel.issuePermissionsPartFour(update).forEach(this::executeMessage);
                 }
             }
@@ -195,6 +210,9 @@ public class Bot extends TelegramLongPollingBot {
             }
             else if ("Выдать права".equalsIgnoreCase(command)){
                 executeMessage(adminPanel.issuePermissions(update));
+            }
+            else if ("Список чатов".equalsIgnoreCase(command)){
+                executeMessage(manager.listOfQuestions(update));
             }
 
         }

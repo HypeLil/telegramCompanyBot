@@ -339,7 +339,7 @@ public class MainHandler {
 
     public SendMessage startOnlineChat(Update update){
         List<UserEntity> managers = userService.findManagersOnline();
-        String chatId = String.valueOf(update.getMessage().getChatId());
+        String chatId = String.valueOf(update.getCallbackQuery().getFrom().getId());
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -357,8 +357,9 @@ public class MainHandler {
             ChatEntity chatEntity = new ChatEntity();
             chatEntity.setUserId(chatId);
             chatEntity.setAnswered(true);
-            String randomManager = String.valueOf(1 + (int)(Math.random() * managers.size()));
-            chatEntity.setManagerId(userService.getOrCreate(randomManager).getUserId());
+            int randomManager = (int)(Math.random() * managers.size());
+            UserEntity userEntity = managers.get(randomManager);
+            chatEntity.setManagerId(userEntity.getUserId());
             chatService.update(chatEntity);
         }
 

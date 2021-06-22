@@ -51,7 +51,7 @@ public class AdminPanel {
 
         if (userEntity.getRole() == Role.MANAGER){
             KeyboardRow keyboardTwo = new KeyboardRow();
-            keyboardTwo.add(new KeyboardButton("Список чатов без ответа"));
+            keyboardTwo.add(new KeyboardButton("Список чатов"));
 
             KeyboardRow keyboardThree = new KeyboardRow();
             keyboardThree.add(new KeyboardButton("Выйти из админ-панели"));

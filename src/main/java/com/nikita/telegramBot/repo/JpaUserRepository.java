@@ -13,6 +13,6 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, String> {
     @Query("SELECT u FROM UserEntity u WHERE u.online=true")
     List<UserEntity> findAllOnline();
 
-    @Query("SELECT u FROM UserEntity u WHERE u.online=true AND u.role=1")
+    @Query("SELECT u FROM UserEntity u WHERE u.online=true AND u.role='1'")
     List<UserEntity> findManagersOnline();
 }
