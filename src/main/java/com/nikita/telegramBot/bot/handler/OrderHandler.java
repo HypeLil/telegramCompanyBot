@@ -30,7 +30,7 @@ public class OrderHandler {
     private String orderType() {
         String position = orderPosition;
         String order = "";
-
+     /*
         if ("china_sky".equalsIgnoreCase(position)) {
             order = "Авиадоставка из Китая";
         } else if ("china_auto".equalsIgnoreCase(position)) {
@@ -54,7 +54,9 @@ public class OrderHandler {
         } else if ("заказ".equalsIgnoreCase(position.split("_")[0])){
             order = "Доставка грузов из " + position.split("_")[1];
         }
-        else if ("opt".equalsIgnoreCase(position)){
+
+      */
+        if ("opt".equalsIgnoreCase(position)){
             order = "Оптовая дистрибуция";
         }
         else if ("complex".equalsIgnoreCase(position)){
@@ -65,6 +67,21 @@ public class OrderHandler {
         }
         else if ("sets_provider".equalsIgnoreCase(position)){
             order = "Проверенные поставщики";
+        }
+        else if ("cargo_order".equals(position)){
+            order = "Грузоперевозки";
+        }
+        else if ("give_dt".equals(position)){
+            order = "Подача ДТ";
+        }
+        else if ("provider_find".equals(position)){
+            order = "Поиск поставщика";
+        }
+        else if ("surveer".equals(position)){
+            order = "Сюрвеерская проверка";
+        }
+        else if ("resp_keeping".equals(position)){
+            order = "Ответственное хранение";
         }
         else log.error("Такого вида заказа нет");
 
@@ -130,43 +147,12 @@ public class OrderHandler {
         return sendMessage;
     }
 
-    public SendMessage enterNumber(Update update){
+    public SendMessage result(Update update){
         UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
         String number = update.getMessage().getText();
 
-        log.info("Позиция {} номер {}", userEntity.getPosition(), number);
-        String message = "Введите почту";
-        userEntity.setPosition("enter_email");
-        userEntity.setNumber(number);
-        log.info("Ввод почты");
-
-        userService.update(userEntity);
-
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(userEntity.getUserId());
-        sendMessage.enableMarkdown(true);
-
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        List<KeyboardRow> keyboardRowList = new ArrayList<>();
-        KeyboardRow keyboardRow = new KeyboardRow();
-        keyboardRow.add(new KeyboardButton("Назад"));
-        replyKeyboardMarkup.setKeyboard(keyboardRowList);
-        keyboardRowList.add(keyboardRow);
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-
-        replyKeyboardMarkup.setKeyboard(keyboardRowList);
-
-        sendMessage.setText(message);
-
-        return sendMessage;
-    }
-
-    public SendMessage result(Update update){
-        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        String email = update.getMessage().getText();
-
         userEntity.setPosition("start");
-        userEntity.setEmail(email);
+        userEntity.setNumber(number);
         userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
@@ -177,7 +163,6 @@ public class OrderHandler {
         StringBuilder sb = new StringBuilder();
         sb.append(" ФИО: ").append(userEntity.getName());
         sb.append("\n Номер: ").append(userEntity.getNumber());
-        sb.append("\n Почта: ").append(userEntity.getEmail());
 
         orderPosition = userEntity.getOrderPosition();
         EmailSender.send(sb.toString(), orderType());

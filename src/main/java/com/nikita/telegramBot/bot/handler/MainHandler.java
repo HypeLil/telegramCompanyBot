@@ -57,17 +57,9 @@ public class MainHandler {
         sendMessage.enableMarkdown(true);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Приветствуем!\n" +
-                "В нашем боте вы можете выбрать 1 из услуг:\n" +
-                "- Импорт на прямой контракт\n" +
-                "- ВЭД-сопровождение\n" +
-                "- Таможенное оформление\n" +
-                "- Сертификация\n" +
-                "- Страхование\n" +
-                "- Финансовое сопровождение\n" +
-                "- Ответственное хранение\n" +
-                "- Fashion маркировка\n" +
-                "- Оптовая дистрибуция\n");
+        sb.append("Здравствуйте! Это бот компании Free Lines, который поможет вам выбрать подходящую логистическую услугу или готовый набор и соединит с менеджером для согласования деталей заказа. \n" +
+                "\n" +
+                "Для начала работы бота выберите одну из команд:");
         sendMessage.setText(sb.toString());
 
         startMenu(sendMessage);
@@ -91,32 +83,6 @@ public class MainHandler {
                 "\n" +
                 "Охват стран мира на сегодняшний день составляет 64 страны (это страны Европы, Азии, Северной и Южной Америки, Африки и Австралии). И количество стран постоянно растет!";
         sendMessage.setText(sb);
-
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
-
-        // Создаем список строк клавиатуры
-        List<KeyboardRow> keyboard = new ArrayList<>();
-
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        keyboardFirstRow.add(new KeyboardButton("Подробнее"));
-
-        KeyboardRow keyboardSecondRow = new KeyboardRow();
-        keyboardSecondRow.add(new KeyboardButton("Услуги"));
-
-        KeyboardRow keyboardThirdRow = new KeyboardRow();
-        keyboardThirdRow.add(new KeyboardButton("Готовые наборы"));
-
-        KeyboardRow keyboardFiveRow = new KeyboardRow();
-        keyboardFiveRow.add(new KeyboardButton("Назад"));
-
-        keyboard.add(keyboardFirstRow);
-        keyboard.add(keyboardSecondRow);
-        keyboard.add(keyboardThirdRow);
-        keyboard.add(keyboardFiveRow);
-        replyKeyboardMarkup.setKeyboard(keyboard);
 
         return sendMessage;
     }

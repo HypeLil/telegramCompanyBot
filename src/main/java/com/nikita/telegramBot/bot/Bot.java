@@ -86,7 +86,7 @@ public class Bot extends TelegramLongPollingBot {
                     executeMessage(orderHandler.enterName(update));
                 }
                 else if ("enter_number".equalsIgnoreCase(position)){
-                    executeMessage(orderHandler.enterNumber(update));
+                    executeMessage(orderHandler.result(update));
                 }
                 else if ("enter_email".equalsIgnoreCase(position)){
                     executeMessage(orderHandler.result(update));
@@ -156,40 +156,14 @@ public class Bot extends TelegramLongPollingBot {
             else if ("Подача ДТ".equalsIgnoreCase(command)){
                 executeMessage(serviceCatalog.serviceDt(update));
             }
-            else if (command.split(" ")[0].equalsIgnoreCase("Грузоперевозка")){
-                executeMessage(cargoChecker.checker(update));
-            }
-            else if ("Авиадоставка грузов из Турции".equalsIgnoreCase(command)){
-                executeMessage(turkish.sky(update));
-            }
-            else if ("Автомобильные перевозки грузов из Турциии".equalsIgnoreCase(command)){
-                executeMessage(turkish.auto(update));
-            }
-            else if ("Мультимодальные перевозки грузов из Турции".equalsIgnoreCase(command)){
-                executeMessage(turkish.multi(update));
-            }
-            else if ("Автоперевозки из Китая".equalsIgnoreCase(command)){
-                executeMessage(china.auto(update));
-            }
-            else if ("Железнодорожные перевозки из Китая".equalsIgnoreCase(command)){
-                executeMessage(china.train(update));
-            }
-            else if ("Авиадоставка из Китая".equalsIgnoreCase(command)){
-                executeMessage(china.sky(update));
-            }
-            else if ("Подача ДТ под печатью брокера".equalsIgnoreCase(command)){
-                executeMessage(serviceDT.broker(update));
-            } else if ("Подача ДТ под печатью клиента".equalsIgnoreCase(command)){
-                executeMessage(serviceDT.client(update));
-            }
-            else if ("Сертификация".equalsIgnoreCase(command)){
-                executeMessage(sertification.start(update));
-            }
-            else if ("Таможенное оформление".equalsIgnoreCase(command) && "catalog".equalsIgnoreCase(userEntity.getPosition())){
-                executeMessage(sertification.customs(update));
-            }
             else if ("Поиск поставщика".equalsIgnoreCase(command)){
-                executeMessage(sertification.findProvider(update));
+                executeMessage(serviceCatalog.findProvider(update));
+            }
+            else if ("Сюрвейерская проверка".equalsIgnoreCase(command)){
+                executeMessage(serviceCatalog.surveer(update));
+            }
+            else if ("Ответственное хранение".equalsIgnoreCase(command)){
+                executeMessage(serviceCatalog.respKeeping(update));
             }
             else if ("Оптовая дистрибуция".equalsIgnoreCase(command)){
                 executeMessage(setsHandler.opt(update));
@@ -205,6 +179,9 @@ public class Bot extends TelegramLongPollingBot {
             }
             else if ("Заказать".equalsIgnoreCase(command)){
                 executeMessage(orderHandler.order(update));
+            }
+            else if ("Подробнее".equalsIgnoreCase(command)){
+                executeMessage(serviceCatalog.detailed(update));
             }
             else if ("Админ-панель".equalsIgnoreCase(command)){
                 executeMessage(adminPanel.startAdmin(update));
@@ -262,25 +239,7 @@ public class Bot extends TelegramLongPollingBot {
         userEntity.setPosition("start");
         userService.update(userEntity);
 
-        if ("carg_europe".equalsIgnoreCase(position)){
-            return serviceCatalog.startService(update);
-        }
-        else if ("turkish".equalsIgnoreCase(position.split("_")[0])){
-            return serviceCatalog.startService(update);
-        }
-        else if ("china".equalsIgnoreCase(position.split("_")[0])){
-            return serviceCatalog.startService(update);
-        }
-        else if ("dt-service".equalsIgnoreCase(position.split("_")[0])){
-            return serviceCatalog.startService(update);
-        }
-        else if ("sertif".equalsIgnoreCase(position.split("_")[0])){
-            return serviceCatalog.startService(update);
-        }
-        else if ("sets".equalsIgnoreCase(position)){
-            return mainHandler.completedSets(update);
-        }
-        else if ("admin".equalsIgnoreCase(position.split("_")[0])){
+        if (position.split("_").length > 1 && "admin".equalsIgnoreCase(position.split("_")[0])){
             return adminPanel.startAdmin(update);
         }
         else {

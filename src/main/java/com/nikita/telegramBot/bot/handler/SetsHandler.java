@@ -29,16 +29,7 @@ public class SetsHandler {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Поиск поставщиков товара по ТЗ \n" +
-                "Юридическая проверка поставщиков товара за рубежом \n" +
-                "Сюрвейерская проверка товара/поставщика за рубежом \n" +
-                "Доставка образцов продукции для тестирования заказчиком \n" +
-                "Организация оплаты товара, заключение контракта \n" +
-                "Организация доставки товара в РФ \n" +
-                "Организация таможенного оформления товара \n" +
-                "Организация сертификации товара \n" +
-                "Складская обработка товара, фулфилмент \n" +
-                "Помощь в поставке товаров на склады маркетплейса");
+        sendMessage.setText("Оптовая дистрибуция");
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setResizeKeyboard(true);
 
@@ -73,12 +64,7 @@ public class SetsHandler {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Пикап \n" +
-                "Грузоперевозка \n" +
-                "ВЭД сопровождение \n" +
-                "Присвоение кода ТНВЭД с описанием \n" +
-                "Подача ДТ под печать клиента \n" +
-                "Сертификация");
+        sendMessage.setText("Комплексная доставка");
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setResizeKeyboard(true);
 
@@ -112,9 +98,7 @@ public class SetsHandler {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Присвоение кода ТНВЭД с описанием \n" +
-                "Подача ДТ под печать нашего брокера \n" +
-                "Сертификация");
+        sendMessage.setText("Таможенное оформление");
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setResizeKeyboard(true);
 
@@ -148,10 +132,7 @@ public class SetsHandler {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Поиск поставщика \n" +
-                "ВЭД сопровождение \n" +
-                "Сюрвейрская проверка товара \n" +
-                "Сюрвейрская проверка поставщика");
+        sendMessage.setText("Проверенные поставщики");
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setResizeKeyboard(true);
 

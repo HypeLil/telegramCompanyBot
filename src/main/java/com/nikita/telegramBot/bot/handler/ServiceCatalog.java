@@ -22,73 +22,93 @@ public class ServiceCatalog {
     private final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
     private final UserService userService;
 
+    public SendMessage setKeyboard(SendMessage sendMessage){
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+
+        List<KeyboardRow> keyboardRowList = new ArrayList<>();
+
+        KeyboardRow keyboardRow = new KeyboardRow();
+        keyboardRow.add(new KeyboardButton("Подробнее"));
+
+        KeyboardRow keyboardRow1 = new KeyboardRow();
+        keyboardRow1.add(new KeyboardButton("Заказать"));
+
+        KeyboardRow keyboardRow3 = new KeyboardRow();
+        keyboardRow3.add(new KeyboardButton("Назад"));
+
+        replyKeyboardMarkup.setKeyboard(keyboardRowList);
+        keyboardRowList.add(keyboardRow1);
+        keyboardRowList.add(keyboardRow);
+        keyboardRowList.add(keyboardRow3);
+
+        replyKeyboardMarkup.setKeyboard(keyboardRowList);
+
+        return sendMessage;
+    }
+
     public SendMessage cargo(Update update){
-        String chatId = String.valueOf(update.getMessage().getChatId());
         UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        userEntity.setPosition("cargo");
+        userEntity.setPosition("cargo_order");
         userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
+        sendMessage.setChatId(userEntity.getUserId());
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Грузоперевозки:");
+        sendMessage.setText("Грузоперевозки");
 
-        List<KeyboardRow> keyboard = new ArrayList<>();
-
-        KeyboardRow keyboardFour = new KeyboardRow();
-        keyboardFour.add(new KeyboardButton("Грузоперевозка Турция"));
-
-        KeyboardRow keyboardThree = new KeyboardRow();
-        keyboardThree.add(new KeyboardButton("Грузоперевозка Китай"));
-
-        KeyboardRow keyboardSec = new KeyboardRow();
-        keyboardSec.add(new KeyboardButton("Грузоперевозка Европа"));
-
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        keyboardFirstRow.add(new KeyboardButton("Назад"));
-
-        keyboard.add(keyboardFour);
-        keyboard.add(keyboardThree);
-        keyboard.add(keyboardSec);
-        keyboard.add(keyboardFirstRow);
-        replyKeyboardMarkup.setKeyboard(keyboard);
-
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-        return sendMessage;
+        return setKeyboard(sendMessage);
     }
 
     public SendMessage serviceDt(Update update){
-
-        String chatId = String.valueOf(update.getMessage().getChatId());
         UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        userEntity.setPosition("dt");
+        userEntity.setPosition("give_dt");
         userService.update(userEntity);
 
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
+        sendMessage.setChatId(userEntity.getUserId());
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Выберите:");
+        sendMessage.setText("Подача ДТ");
 
-        List<KeyboardRow> keyboard = new ArrayList<>();
-
-        KeyboardRow keyboardSec = new KeyboardRow();
-        keyboardSec.add(new KeyboardButton("Подача ДТ под печатью клиента"));
-
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        keyboardFirstRow.add(new KeyboardButton("Подача ДТ под печатью брокера"));
-
-        KeyboardRow keyboardThreeRow = new KeyboardRow();
-        keyboardThreeRow.add(new KeyboardButton("Назад"));
-
-        keyboard.add(keyboardFirstRow);
-        keyboard.add(keyboardSec);
-        keyboard.add(keyboardThreeRow);
-
-        replyKeyboardMarkup.setKeyboard(keyboard);
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-
-        return sendMessage;
+        return setKeyboard(sendMessage);
     }
+    public SendMessage findProvider(Update update){
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        userEntity.setPosition("provider_find");
+        userService.update(userEntity);
+
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(userEntity.getUserId());
+        sendMessage.enableMarkdown(true);
+        sendMessage.setText("Поиск поставщика");
+
+        return setKeyboard(sendMessage);
+    }
+    public SendMessage surveer(Update update){
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        userEntity.setPosition("surveer");
+        userService.update(userEntity);
+
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(userEntity.getUserId());
+        sendMessage.enableMarkdown(true);
+        sendMessage.setText("Сурвеерская проверка");
+
+        return setKeyboard(sendMessage);
+    }
+    public SendMessage respKeeping(Update update){
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        userEntity.setPosition("resp_keeping");
+        userService.update(userEntity);
+
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(userEntity.getUserId());
+        sendMessage.enableMarkdown(true);
+        sendMessage.setText("Ответственное хранение");
+
+        return setKeyboard(sendMessage);
+    }
+
 
     public SendMessage startService(Update update){
         String chatId = String.valueOf(update.getMessage().getChatId());
@@ -116,16 +136,15 @@ public class ServiceCatalog {
         keyboardSecondRow.add(new KeyboardButton("Подача ДТ"));
 
         KeyboardRow keyboardThirdRow = new KeyboardRow();
-        keyboardThirdRow.add(new KeyboardButton("Сертификация"));
+        keyboardThirdRow.add(new KeyboardButton("Сюрвейерская проверка"));
 
         KeyboardRow keyboardFourthRow = new KeyboardRow();
         keyboardFourthRow.add(new KeyboardButton("Поиск поставщика"));
 
         KeyboardRow keyboardSixRow = new KeyboardRow();
-        keyboardSixRow.add(new KeyboardButton("Таможенное оформление"));
+        keyboardSixRow.add(new KeyboardButton("Ответственное хранение"));
 
         KeyboardRow keyboardFiveRow = new KeyboardRow();
-        keyboardFiveRow.add(new KeyboardButton("Подробнее"));
         keyboardFiveRow.add(new KeyboardButton("Назад"));
 
         keyboard.add(keyboardFirstRow);
@@ -135,6 +154,67 @@ public class ServiceCatalog {
         keyboard.add(keyboardSixRow);
         keyboard.add(keyboardFiveRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
+
+        return sendMessage;
+    }
+
+    public SendMessage detailed(Update update){
+        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
+        String position = userEntity.getPosition();
+
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(userEntity.getUserId());
+        sendMessage.enableMarkdown(true);
+
+        if ("cargo_order".equals(position)){
+            sendMessage.setText("Доставим Ваш груз из любой страны мира! В нашем распоряжении все виды транспорта: автомобильный, морской, железнодорожный, авиационный.\n" +
+                    "Примерные сроки доставки: \n" +
+                    "•\tАвто из Европы - 7-14 дней\n" +
+                    "•\tАвто из Китая - 30 дней\n" +
+                    "•\tАвто из Турции - 14 дней\n" +
+                    "•\tМоре + Авто из Турции - 14 дней\n");
+        } else if ("give_dt".equals(position)){
+            sendMessage.setText("Оформим таможенную декларацию по Вашему товару. " +
+                    "\nПодберем код ТН ВЭД. Гарантируем сделать все, чтобы со стороны контролирующих органов не возникало дополнительных вопросов. " +
+                    "\nОформление ДТ возможно как под вашу ЭЦП, так и под печать брокера.");
+        } else if ("provider_find".equals(position)){
+            sendMessage.setText("Найдем для вас поставщика в Китае. " +
+                    "\nВыступим посредником на каждом этапе: от проверки предлагаемого товара до заключения контракта и поставки на территорию России.");
+        } else if ("surveer".equals(position)){
+            sendMessage.setText("Проведем качественный анализ вашего будущего продавца. " +
+                    "\nВ собственности ли производственное помещение, устроены ли официально сотрудники, какова его история на рынке. " +
+                    "\nСюрвейерская проверка выявит все необходимые для заключения контракта детали.");
+        } else if ("resp_keeping".equals(position)){
+            sendMessage.setText("Возьмем на ответственное хранение ваш груз.\n" +
+                    "При необходимости, рассортируем, переупакуем, промаркируем, наклеим стикеры, проведем инвентаризацию и доставим груз до конечной точки.\n");
+        } else if ("opt".equals(position)){
+            sendMessage.setText("Ваши заботы = наши задачи. Возьмем на себя под ключ:\n" +
+                    "•\tпоиск поставщика;\n" +
+                    "•\tсюрвейерскую проверку поставщика и товара;\n" +
+                    "•\tзаключим договор и оплатим товар;\n" +
+                    "•\tпривезем его в Россию;\n" +
+                    "•\tпроведем таможенную очистку;\n" +
+                    "•\tорганизуем складскую обработку товара в соответствии с требованиями маркетплейсов;\n" +
+                    "•\tдоставим товар на склады маркетплейсов.\n");
+        } else if ("complex".equals(position)){
+            sendMessage.setText("Доставим Ваши грузы \"под ключ\":\n" +
+                    "•\tпривезем в Россию из любой страны мира любым доступным видом транспорта;\n" +
+                    "•\tсертифицируем;\n" +
+                    "•\tрастаможим;\n" +
+                    "•\tдоставим до пункта назначения.\n");
+        } else if ("sets_custom".equals(position)){
+            sendMessage.setText("Любой ввозимый на территорию РФ товар должен пройти таможенную очистку.\n" +
+                    "Мы \n" +
+                    "•\tподберем код ТН ВЭД с описанием;\n" +
+                    "•\tподадим ДТ под печать нашего брокера или клиента;\n" +
+                    "•\tсертифицируем товар.\n");
+        } else if ("sets_provider".equals(position)){
+            sendMessage.setText("С комплексом \"Проверенный поставщик\" мы снимем заботы с Ваших плеч: \n" +
+                    "•\tнайдем поставщика и заключим с ним договор;\n" +
+                    "•\tпроведем сюрвейерскую проверку поставщика и товара;\n" +
+                    "•\tорганизуем ВЭД сопровождение.\n");
+        }
+
 
         return sendMessage;
     }

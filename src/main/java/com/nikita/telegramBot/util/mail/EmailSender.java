@@ -1,7 +1,6 @@
 package com.nikita.telegramBot.util.mail;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import javax.mail.*;
@@ -13,6 +12,7 @@ import java.util.Properties;
 @Slf4j
 public class EmailSender {
 
+    // при смене почты, нужно разрешение на использование из ненадежных приложений
     private final static String mainMail = "zapros@free-lines.ru";
     private final static String userLogin = "liltupics.bot@gmail.com";
     private final static String userPassword = "91823God";
@@ -32,7 +32,6 @@ public class EmailSender {
                         return new PasswordAuthentication(userLogin, userPassword);
                     }
                 });
-
         try {
             MimeMessage msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress(userLogin));
