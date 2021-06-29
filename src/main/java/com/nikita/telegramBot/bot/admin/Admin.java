@@ -112,6 +112,7 @@ public class Admin extends AbstractAdminPanel{
         userService.update(userEntity);
 
         sendMessage.setText("Выберите выдаваемые права:\n" +
+                "0 - Забрать права" +
                 "1 - Менеджер\n" +
                 "2 - Админ");
 
@@ -134,8 +135,11 @@ public class Admin extends AbstractAdminPanel{
         else if ("2".equals(text)){
             role = "admin";
         }
+        else if ("0".equals(text)){
+            role = "user";
+        }
         else {
-            sendMessage.setText("Некорректный выбор, надо 1 или 2");
+            sendMessage.setText("Некорректный выбор, надо 1 или 2, или 0");
             return sendMessage;
         }
 
@@ -154,7 +158,16 @@ public class Admin extends AbstractAdminPanel{
         String name = update.getMessage().getText();
 
         UserEntity newAdmin = userService.getOrCreate(newAdminId);
-        newAdmin.setRole(role.equals("manager") ? Role.MANAGER : Role.ADMIN);
+
+        if ("manager".equals(role)){
+            newAdmin.setRole(Role.MANAGER);
+        } else if ("admin".equals(role)){
+            newAdmin.setRole(Role.ADMIN);
+        }
+        else if ("user".equals(role)){
+            newAdmin.setRole(Role.USER);
+        }
+
         newAdmin.setName(name);
         userService.update(newAdmin);
 

@@ -1,8 +1,8 @@
 bot:
-  token: 1727348060:AAHks0ViKIAPzPoOqKPjpygvw2lTJSpsjkM
+  token:
   name: FreeLC
-  admin: 218331443
-  number: +7 (495) 640 -63 - 55
+  admin:
+  number:
 
 server:
   port: 5432
@@ -20,9 +20,9 @@ spring:
   datasource:
     #  Note that the hostname, port and database name on url property and username and password properties will be ignored
     #  and it will be used default container values
-    url: jdbc:postgresql://localhost:5432/bot?user=nikita&password=91823God&currentSchema=public
+    url:
     driver-class-name: org.postgresql.Driver
-    username: nikita
-    password: 91823God
+    username:
+    password:
     hikari:
       schema: public
