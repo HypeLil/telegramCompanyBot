@@ -1,11 +1,11 @@
 bot:
-  token: 1817825340:AAFDTGZaRa4qIfDWPRb0zCg86hLZS873tLQ
-  name: testBot
-  admin: 213411446
-  number: +74956406355
+  token: 1727348060:AAHks0ViKIAPzPoOqKPjpygvw2lTJSpsjkM
+  name: FreeLC
+  admin: 218331443
+  number: +7 (495) 640 -63 - 55
 
 server:
-  port: 5555
+  port: 5432
 
 spring:
   liquibase:
@@ -20,9 +20,9 @@ spring:
   datasource:
     #  Note that the hostname, port and database name on url property and username and password properties will be ignored
     #  and it will be used default container values
-    url: jdbc:postgresql://localhost:5555/iwan16?user=postgres&password=91823God&currentSchema=public
+    url: jdbc:postgresql://localhost:5432/bot?user=nikita&password=91823God&currentSchema=public
     driver-class-name: org.postgresql.Driver
-    username: postgres
+    username: nikita
     password: 91823God
     hikari:
       schema: public

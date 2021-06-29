@@ -18,6 +18,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 @Slf4j
+@Deprecated
 public class Turkish implements Cargo{
 
     private InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();

@@ -18,6 +18,7 @@ import java.util.List;
 @Component
 @Slf4j
 @RequiredArgsConstructor
+@Deprecated
 public class China implements Cargo{
 
     private InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();

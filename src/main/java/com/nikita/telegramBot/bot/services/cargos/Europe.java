@@ -18,6 +18,7 @@ import java.util.List;
 @Component
 @Slf4j
 @RequiredArgsConstructor
+@Deprecated
 public class Europe implements Cargo{
 
     private ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();

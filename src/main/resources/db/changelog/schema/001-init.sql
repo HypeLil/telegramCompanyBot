@@ -1,4 +1,4 @@
-CREATE TABLE users (
+CREATE TABLE usrs (
                          user_id varchar(20),
                          name varchar(50),
                          number varchar(15),

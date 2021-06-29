@@ -17,6 +17,7 @@ import java.util.List;
 @Component
 @Slf4j
 @RequiredArgsConstructor
+@Deprecated
 public class Sertification {
 
     private ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();

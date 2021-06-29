@@ -21,9 +21,10 @@ public class EmailSender {
 
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
-        prop.put("mail.smtp.port", "587");
+        prop.put("mail.smtp.port", "465");
         prop.put("mail.smtp.auth", "true");
         prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         prop.put("mail.smtp.starttls.enable", "true"); //TLS
 
         Session session = Session.getInstance(prop,
@@ -47,7 +48,7 @@ public class EmailSender {
             log.info("Отправка mail с типом заказа {}", orderType);
         }
         catch (MessagingException mex){
-            log.error("Ошибка при отправке mail");
+            mex.printStackTrace();
         }
     }
 }

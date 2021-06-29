@@ -29,14 +29,18 @@ public class SetsHandler {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Оптовая дистрибуция");
+        sendMessage.setText("Ваши заботы = наши задачи. Возьмем на себя под ключ:\n" +
+                "•\tпоиск поставщика;\n" +
+                "•\tсюрвейерскую проверку поставщика и товара;\n" +
+                "•\tзаключим договор и оплатим товар;\n" +
+                "•\tпривезем его в Россию;\n" +
+                "•\tпроведем таможенную очистку;\n" +
+                "•\tорганизуем складскую обработку товара в соответствии с требованиями маркетплейсов;\n" +
+                "•\tдоставим товар на склады маркетплейсов.\n");
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setResizeKeyboard(true);
 
         List<KeyboardRow> keyboardRowList = new ArrayList<>();
-
-        KeyboardRow keyboardRow = new KeyboardRow();
-        keyboardRow.add(new KeyboardButton("Подробнее"));
 
         KeyboardRow keyboardRow1 = new KeyboardRow();
         keyboardRow1.add(new KeyboardButton("Заказать"));
@@ -46,7 +50,6 @@ public class SetsHandler {
         keyboardRow3.add(new KeyboardButton("Назад"));
 
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
-        keyboardRowList.add(keyboardRow);
         keyboardRowList.add(keyboardRow1);
         keyboardRowList.add(keyboardRow3);
 
@@ -64,14 +67,15 @@ public class SetsHandler {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Комплексная доставка");
+        sendMessage.setText("Доставим Ваши грузы \"под ключ\":\n" +
+                "•\tпривезем в Россию из любой страны мира любым доступным видом транспорта;\n" +
+                "•\tсертифицируем;\n" +
+                "•\tрастаможим;\n" +
+                "•\tдоставим до пункта назначения.\n");
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setResizeKeyboard(true);
 
         List<KeyboardRow> keyboardRowList = new ArrayList<>();
-
-        KeyboardRow keyboardRow = new KeyboardRow();
-        keyboardRow.add(new KeyboardButton("Подробнее"));
 
         KeyboardRow keyboardRow1 = new KeyboardRow();
         keyboardRow1.add(new KeyboardButton("Заказать"));
@@ -80,7 +84,6 @@ public class SetsHandler {
         keyboardRow3.add(new KeyboardButton("Назад"));
 
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
-        keyboardRowList.add(keyboardRow);
         keyboardRowList.add(keyboardRow1);
         keyboardRowList.add(keyboardRow3);
 
@@ -98,14 +101,15 @@ public class SetsHandler {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Таможенное оформление");
+        sendMessage.setText("Любой ввозимый на территорию РФ товар должен пройти таможенную очистку.\n" +
+                "Мы \n" +
+                "•\tподберем код ТН ВЭД с описанием;\n" +
+                "•\tподадим ДТ под печать нашего брокера или клиента;\n" +
+                "•\tсертифицируем товар.\n");
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setResizeKeyboard(true);
 
         List<KeyboardRow> keyboardRowList = new ArrayList<>();
-
-        KeyboardRow keyboardRow = new KeyboardRow();
-        keyboardRow.add(new KeyboardButton("Подробнее"));
 
         KeyboardRow keyboardRow1 = new KeyboardRow();
         keyboardRow1.add(new KeyboardButton("Заказать"));
@@ -114,7 +118,6 @@ public class SetsHandler {
         keyboardRow3.add(new KeyboardButton("Назад"));
 
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
-        keyboardRowList.add(keyboardRow);
         keyboardRowList.add(keyboardRow1);
         keyboardRowList.add(keyboardRow3);
 
@@ -132,14 +135,14 @@ public class SetsHandler {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Проверенные поставщики");
+        sendMessage.setText("С комплексом \"Проверенный поставщик\" мы снимем заботы с Ваших плеч: \n" +
+                "•\tнайдем поставщика и заключим с ним договор;\n" +
+                "•\tпроведем сюрвейерскую проверку поставщика и товара;\n" +
+                "•\tорганизуем ВЭД сопровождение.\n");
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setResizeKeyboard(true);
 
         List<KeyboardRow> keyboardRowList = new ArrayList<>();
-
-        KeyboardRow keyboardRow = new KeyboardRow();
-        keyboardRow.add(new KeyboardButton("Подробнее"));
 
         KeyboardRow keyboardRow1 = new KeyboardRow();
         keyboardRow1.add(new KeyboardButton("Заказать"));
@@ -148,7 +151,6 @@ public class SetsHandler {
         keyboardRow3.add(new KeyboardButton("Назад"));
 
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
-        keyboardRowList.add(keyboardRow);
         keyboardRowList.add(keyboardRow1);
         keyboardRowList.add(keyboardRow3);
 

@@ -11,19 +11,9 @@
       "description": "Description for bot.name."
     },
     {
-      "name": "bot.admin",
-      "type": "java.lang.String",
-      "description": "Description for bot.admin."
-    },
-    {
       "name": "mail.email",
       "type": "java.lang.String",
       "description": "Description for mail.email."
-    },
-    {
-      "name": "mail.host",
-      "type": "java.lang.String",
-      "description": "Description for mail.host."
     },
     {
       "name": "mail.from_login",
@@ -31,13 +21,23 @@
       "description": "Description for mail.from_login."
     },
     {
+      "name": "mail.port_ssl",
+      "type": "java.lang.String",
+      "description": "Description for mail.port_ssl."
+    },
+    {
+      "name": "bot.admin",
+      "type": "java.lang.String",
+      "description": "Description for bot.admin."
+    },
+    {
       "name": "mail.password",
       "type": "java.lang.String",
       "description": "Description for mail.password."
     },
     {
-      "name": "mail.port_ssl",
+      "name": "mail.host",
       "type": "java.lang.String",
-      "description": "Description for mail.port_ssl."
+      "description": "Description for mail.host."
     }
   ] }

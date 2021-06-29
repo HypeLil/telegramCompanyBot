@@ -28,9 +28,6 @@ public class ServiceCatalog {
 
         List<KeyboardRow> keyboardRowList = new ArrayList<>();
 
-        KeyboardRow keyboardRow = new KeyboardRow();
-        keyboardRow.add(new KeyboardButton("Подробнее"));
-
         KeyboardRow keyboardRow1 = new KeyboardRow();
         keyboardRow1.add(new KeyboardButton("Заказать"));
 
@@ -39,7 +36,6 @@ public class ServiceCatalog {
 
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
         keyboardRowList.add(keyboardRow1);
-        keyboardRowList.add(keyboardRow);
         keyboardRowList.add(keyboardRow3);
 
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
@@ -55,7 +51,12 @@ public class ServiceCatalog {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(userEntity.getUserId());
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Грузоперевозки");
+        sendMessage.setText("Доставим Ваш груз из любой страны мира! В нашем распоряжении все виды транспорта: автомобильный, морской, железнодорожный, авиационный.\n" +
+                "Примерные сроки доставки: \n" +
+                "•\tАвто из Европы - 7-14 дней\n" +
+                "•\tАвто из Китая - 30 дней\n" +
+                "•\tАвто из Турции - 14 дней\n" +
+                "•\tМоре + Авто из Турции - 14 дней\n");
 
         return setKeyboard(sendMessage);
     }
@@ -68,7 +69,9 @@ public class ServiceCatalog {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(userEntity.getUserId());
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Подача ДТ");
+        sendMessage.setText("Оформим таможенную декларацию по Вашему товару. " +
+                "\nПодберем код ТН ВЭД. Гарантируем сделать все, чтобы со стороны контролирующих органов не возникало дополнительных вопросов. " +
+                "\nОформление ДТ возможно как под вашу ЭЦП, так и под печать брокера.");
 
         return setKeyboard(sendMessage);
     }
@@ -80,7 +83,8 @@ public class ServiceCatalog {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(userEntity.getUserId());
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Поиск поставщика");
+        sendMessage.setText("Найдем для вас поставщика в Китае. " +
+                "\nВыступим посредником на каждом этапе: от проверки предлагаемого товара до заключения контракта и поставки на территорию России.");
 
         return setKeyboard(sendMessage);
     }
@@ -92,7 +96,9 @@ public class ServiceCatalog {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(userEntity.getUserId());
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Сурвеерская проверка");
+        sendMessage.setText("Проведем качественный анализ вашего будущего продавца. " +
+                "\nВ собственности ли производственное помещение, устроены ли официально сотрудники, какова его история на рынке. " +
+                "\nСюрвейерская проверка выявит все необходимые для заключения контракта детали.");
 
         return setKeyboard(sendMessage);
     }
@@ -104,7 +110,8 @@ public class ServiceCatalog {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(userEntity.getUserId());
         sendMessage.enableMarkdown(true);
-        sendMessage.setText("Ответственное хранение");
+        sendMessage.setText("Возьмем на ответственное хранение ваш груз.\n" +
+                "При необходимости, рассортируем, переупакуем, промаркируем, наклеим стикеры, проведем инвентаризацию и доставим груз до конечной точки.\n");
 
         return setKeyboard(sendMessage);
     }
@@ -154,67 +161,6 @@ public class ServiceCatalog {
         keyboard.add(keyboardSixRow);
         keyboard.add(keyboardFiveRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
-
-        return sendMessage;
-    }
-
-    public SendMessage detailed(Update update){
-        UserEntity userEntity = userService.getOrCreate(String.valueOf(update.getMessage().getFrom().getId()));
-        String position = userEntity.getPosition();
-
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(userEntity.getUserId());
-        sendMessage.enableMarkdown(true);
-
-        if ("cargo_order".equals(position)){
-            sendMessage.setText("Доставим Ваш груз из любой страны мира! В нашем распоряжении все виды транспорта: автомобильный, морской, железнодорожный, авиационный.\n" +
-                    "Примерные сроки доставки: \n" +
-                    "•\tАвто из Европы - 7-14 дней\n" +
-                    "•\tАвто из Китая - 30 дней\n" +
-                    "•\tАвто из Турции - 14 дней\n" +
-                    "•\tМоре + Авто из Турции - 14 дней\n");
-        } else if ("give_dt".equals(position)){
-            sendMessage.setText("Оформим таможенную декларацию по Вашему товару. " +
-                    "\nПодберем код ТН ВЭД. Гарантируем сделать все, чтобы со стороны контролирующих органов не возникало дополнительных вопросов. " +
-                    "\nОформление ДТ возможно как под вашу ЭЦП, так и под печать брокера.");
-        } else if ("provider_find".equals(position)){
-            sendMessage.setText("Найдем для вас поставщика в Китае. " +
-                    "\nВыступим посредником на каждом этапе: от проверки предлагаемого товара до заключения контракта и поставки на территорию России.");
-        } else if ("surveer".equals(position)){
-            sendMessage.setText("Проведем качественный анализ вашего будущего продавца. " +
-                    "\nВ собственности ли производственное помещение, устроены ли официально сотрудники, какова его история на рынке. " +
-                    "\nСюрвейерская проверка выявит все необходимые для заключения контракта детали.");
-        } else if ("resp_keeping".equals(position)){
-            sendMessage.setText("Возьмем на ответственное хранение ваш груз.\n" +
-                    "При необходимости, рассортируем, переупакуем, промаркируем, наклеим стикеры, проведем инвентаризацию и доставим груз до конечной точки.\n");
-        } else if ("opt".equals(position)){
-            sendMessage.setText("Ваши заботы = наши задачи. Возьмем на себя под ключ:\n" +
-                    "•\tпоиск поставщика;\n" +
-                    "•\tсюрвейерскую проверку поставщика и товара;\n" +
-                    "•\tзаключим договор и оплатим товар;\n" +
-                    "•\tпривезем его в Россию;\n" +
-                    "•\tпроведем таможенную очистку;\n" +
-                    "•\tорганизуем складскую обработку товара в соответствии с требованиями маркетплейсов;\n" +
-                    "•\tдоставим товар на склады маркетплейсов.\n");
-        } else if ("complex".equals(position)){
-            sendMessage.setText("Доставим Ваши грузы \"под ключ\":\n" +
-                    "•\tпривезем в Россию из любой страны мира любым доступным видом транспорта;\n" +
-                    "•\tсертифицируем;\n" +
-                    "•\tрастаможим;\n" +
-                    "•\tдоставим до пункта назначения.\n");
-        } else if ("sets_custom".equals(position)){
-            sendMessage.setText("Любой ввозимый на территорию РФ товар должен пройти таможенную очистку.\n" +
-                    "Мы \n" +
-                    "•\tподберем код ТН ВЭД с описанием;\n" +
-                    "•\tподадим ДТ под печать нашего брокера или клиента;\n" +
-                    "•\tсертифицируем товар.\n");
-        } else if ("sets_provider".equals(position)){
-            sendMessage.setText("С комплексом \"Проверенный поставщик\" мы снимем заботы с Ваших плеч: \n" +
-                    "•\tнайдем поставщика и заключим с ним договор;\n" +
-                    "•\tпроведем сюрвейерскую проверку поставщика и товара;\n" +
-                    "•\tорганизуем ВЭД сопровождение.\n");
-        }
-
 
         return sendMessage;
     }

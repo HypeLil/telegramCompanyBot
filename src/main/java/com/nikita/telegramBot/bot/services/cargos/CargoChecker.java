@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
 @RequiredArgsConstructor
 @Slf4j
+@Deprecated
 public class CargoChecker {
 
     private final Turkish turkish;

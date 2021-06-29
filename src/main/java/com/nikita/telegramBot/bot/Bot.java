@@ -1,15 +1,10 @@
 package com.nikita.telegramBot.bot;
 
-import com.nikita.telegramBot.bot.admin.Admin;
 import com.nikita.telegramBot.bot.admin.AdminPanel;
 import com.nikita.telegramBot.bot.admin.Manager;
 import com.nikita.telegramBot.bot.handler.OrderHandler;
 import com.nikita.telegramBot.bot.handler.SetsHandler;
-import com.nikita.telegramBot.bot.services.Sertification;
-import com.nikita.telegramBot.bot.services.ServiceDT;
 import com.nikita.telegramBot.bot.services.cargos.CargoChecker;
-import com.nikita.telegramBot.bot.services.cargos.China;
-import com.nikita.telegramBot.bot.services.cargos.Turkish;
 import com.nikita.telegramBot.bot.handler.MainHandler;
 import com.nikita.telegramBot.bot.handler.ServiceCatalog;
 import com.nikita.telegramBot.model.UserEntity;
@@ -47,10 +42,6 @@ public class Bot extends TelegramLongPollingBot {
     private final UserService userService;
     private final ServiceCatalog serviceCatalog;
     private final CargoChecker cargoChecker;
-    private final Turkish turkish;
-    private final China china;
-    private final ServiceDT serviceDT;
-    private final Sertification sertification;
     private final SetsHandler setsHandler;
     private final OrderHandler orderHandler;
     private final AdminPanel adminPanel;
@@ -179,9 +170,6 @@ public class Bot extends TelegramLongPollingBot {
             }
             else if ("Заказать".equalsIgnoreCase(command)){
                 executeMessage(orderHandler.order(update));
-            }
-            else if ("Подробнее".equalsIgnoreCase(command)){
-                executeMessage(serviceCatalog.detailed(update));
             }
             else if ("Админ-панель".equalsIgnoreCase(command)){
                 executeMessage(adminPanel.startAdmin(update));

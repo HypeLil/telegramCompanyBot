@@ -148,6 +148,7 @@ public class MainHandler {
         InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
         inlineKeyboardButton1.setText("Онлайн-форма");
         inlineKeyboardButton1.setCallbackData("online_form");
+        inlineKeyboardButton1.setUrl("https://free-lines.ru/#request");
         row2.add(inlineKeyboardButton1);
 
         keyboard.add(row1);
